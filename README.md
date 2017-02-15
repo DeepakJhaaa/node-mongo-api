@@ -1,539 +1,218 @@
-# JSON Server [![](https://travis-ci.org/typicode/json-server.svg?branch=master)](https://travis-ci.org/typicode/json-server) [![](https://badge.fury.io/js/json-server.svg)](http://badge.fury.io/js/json-server) [![](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/typicode/json-server?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
-Get a full fake REST API with __zero coding__ in __less than 30 seconds__ (seriously)
-
-Created with <3 for front-end developers who need a quick back-end for prototyping and mocking.
-
-* [Egghead.io free video tutorial - Creating demo APIs with json-server](https://egghead.io/lessons/nodejs-creating-demo-apis-with-json-server)
-* [JSONPlaceholder - Live running version](http://jsonplaceholder.typicode.com)
-
-See also:
-* :hotel: [hotel - Start apps from your browser and get local dev domains in seconds](https://github.com/typicode/hotel)
-* :dog: [husky - Git hooks made easy](https://github.com/typicode/husky)
-
-## Table of contents
-
-<details>
-
-<!-- toc -->
-
-- [Example](#example)
-- [Install](#install)
-- [Routes](#routes)
-  * [Plural routes](#plural-routes)
-  * [Singular routes](#singular-routes)
-  * [Filter](#filter)
-  * [Paginate](#paginate)
-  * [Sort](#sort)
-  * [Slice](#slice)
-  * [Operators](#operators)
-  * [Full-text search](#full-text-search)
-  * [Relationships](#relationships)
-  * [Database](#database)
-  * [Homepage](#homepage)
-- [Extras](#extras)
-  * [Static file server](#static-file-server)
-  * [Alternative port](#alternative-port)
-  * [Access from anywhere](#access-from-anywhere)
-  * [Remote schema](#remote-schema)
-  * [Generate random data](#generate-random-data)
-  * [HTTPS](#https)
-  * [Add custom routes](#add-custom-routes)
-  * [Add middlewares](#add-middlewares)
-  * [CLI usage](#cli-usage)
-  * [Module](#module)
-    + [Simple example](#simple-example)
-    + [Custom routes example](#custom-routes-example)
-    + [Access control example](#access-control-example)
-    + [Custom output example](#custom-output-example)
-    + [Rewriter example](#rewriter-example)
-    + [Mounting JSON Server on another endpoint example](#mounting-json-server-on-another-endpoint-example)
-  * [Deployment](#deployment)
-- [Links](#links)
-  * [Video](#video)
-  * [Articles](#articles)
-  * [Third-party tools](#third-party-tools)
-- [License](#license)
+## Node.js / Express.js / MongoDb (+Mongoose) Boilerplate
 
-<!-- tocstop -->
-
-</details>
+This is boilerplate code for setting up a simple node.js RESTful API app using: the express.js framework, a MongoDb database (with the help of Mongoose), and hosting it on Heroku. Please refer to the following documentation for each of these components:
 
-## Example
+* Node.js: <http://nodejs.org/>
+* Express.js: <http://expressjs.com/>
+* Moongoose.js (for MongoDB interaction): <http://mongoosejs.com/>
+* Heroku: <https://devcenter.heroku.com/categories/support> 
 
-Create a `db.json` file
+### Getting started with your local development server
 
-```json
-{
-  "posts": [
-    { "id": 1, "title": "json-server", "author": "typicode" }
-  ],
-  "comments": [
-    { "id": 1, "body": "some comment", "postId": 1 }
-  ],
-  "profile": { "name": "typicode" }
-}
-```
+**Dependenices:**
 
-Start JSON Server
+**One time dependencies (you only need to do these the first time you set up this app). If you have set up this app before, skip to step 4.**
 
-```bash
-$ json-server --watch db.json
-```
+1) Download node.js if you have not already <http://nodejs.org/>. You can confirm that node is successfully installed on your machine by opening up Terminal and typing 'node'. If you don't get an error, it's installed! You can exit the node process with Ctrl+c. If you already have node, no action needed.
 
-Now if you go to [http://localhost:3000/posts/1](), you'll get
+2) Download and install the Heroku Toolbelt <https://toolbelt.heroku.com>, this will give you the Heroku CLI (command line interface). If you already have the Heroku Toolbelt, you can skip this step.
 
-```json
-{ "id": 1, "title": "json-server", "author": "typicode" }
-```
+3) Set up an account at <https://heroku.com>. You will be asked to enter a credit card, but the app we are doing will not incur any charges (they just need a card on file). In fact, all Heroku apps have a starter/free level. If you already have a Heroku account, you can skip this step.
 
-Also when doing requests, it's good to know that:
+**Every time dependencies (do these EVERY time you set up a new app using this boilerplate)**
 
-- If you make POST, PUT, PATCH or DELETE requests, changes will be automatically and safely saved to `db.json` using [lowdb](https://github.com/typicode/lowdb).
-- Your request body JSON should be object enclosed, just like the GET output. (for example `{"name": "Foobar"}`)
-- Id values are not mutable. Any `id` value in the body of your PUT or PATCH request wil be ignored. Only a value set in a POST request wil be respected, but only if not already taken.
-- A POST, PUT or PATCH request should include a `Content-Type: application/json` header to use the JSON in the request body. Otherwise it will result in a 200 OK but without changes being made to the data.
+4) Download this boilerplate repo and navigate into the code directory with Terminal. To download it, click "Download Zip" at [the repo](https://github.com/sslover/node-express-api-boilerplate)... (do not clone it).
 
-## Install
+cd path/to/this/code/directory
 
-```bash
-$ npm install -g json-server
-```
+5) Run **npm install** to get all required libraries.
 
-## Routes
+	npm install
 
-Based on the previous `db.json` file, here are all the default routes. You can also add [other routes](#add-custom-routes) using `--routes`.
+6) We now need to setup Git, a Github repository, and a Heroku app.
 
-### Plural routes
+First we'll start tracking it with Git:
 
-```
-GET    /posts
-GET    /posts/1
-POST   /posts
-PUT    /posts/1
-PATCH  /posts/1
-DELETE /posts/1
-```
+	git init
+	git add .
+	git commit -am "init commit"
 
-### Singular routes
+7) Create the Github Repo
 
-```
-GET    /profile
-POST   /profile
-PUT    /profile
-PATCH  /profile
-```
+Go to [Github](https://github.com/) and create a new repo by clicking "New Repo" in top right. **You only need to create a repo once per project**. You will keep pushing your latest code to this repo.
 
-### Filter
+Once you've created the repo, choose the option: "…or push an existing repository from the command line"
 
-Use `.` to access deep properties
+Run the following in Terminal:
 
-```
-GET /posts?title=json-server&author=typicode
-GET /posts?id=1&id=2
-GET /comments?author.name=typicode
-```
+	git remote add origin insertYourUniqueURLHere
+	git push -u origin master
 
-### Paginate
+The first command associates the Github repo to your app (so it knows which Github repo to push our code to).
+The second command actually pushes your code to the repo.
 
-Use `_page` and optionally `_limit` to paginate returned data.
+You can now refresh the repo page at Github and you will see the code there.
 
-In the `Link` header you'll get `first`, `prev`, `next` and `last` links.
+8) Create the Heroku app
 
+	heroku create
 
-```
-GET /posts?_page=7
-GET /posts?_page=7&_limit=20
-```
+NOTE: if it is your very **FIRST** time setting up a Heroku app, you will need to upload a public key to Heroku. See <http://stackoverflow.com/a/6059231>. As explained in that StackOverlow link, if you don't yet have a public key, you'll be prompted to add one.
 
-_10 items are returned by default_
+9) Now that your heroku app is set-up, you can rename it whenever you like (now or in the future):
 
-### Sort
+	heroku rename your-new-name
 
-Add `_sort` and `_order` (ascending order by default)
+Your app will now be available at your-app-name.herokuapp.com
 
-```
-GET /posts?_sort=views&_order=DESC
-GET /posts/1/comments?_sort=votes&_order=ASC
-```
+You can always open your app with the command:
 
-### Slice
+	heroku open
 
-Add `_start` and `_end` or `_limit` (an `X-Total-Count` header is included in the response)
+### Setting Up Your MongoDB database
 
-```
-GET /posts?_start=20&_end=30
-GET /posts/1/comments?_start=20&_end=30
-GET /posts/1/comments?_start=20&_limit=10
-```
+Heroku has many nice add-ons that make it easier to set-up an app. For example, the MongoLabs add-on gives you a MongoDB database with a single command.
 
-_Works exactly as [Array.slice](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Array/slice) (i.e. `_start` is inclusive and `_end` exclusive)_
+10) Add MongoLabs Starter MongoDB to your heroku app:
 
-### Operators
+	heroku addons:create mongolab
 
-Add `_gte` or `_lte` for getting a range
+If you log-in to your heroku dashboard at <https://heroku.com>, you'll now see this as an add-on. Click on the 'MongoLab' link to see your database.
 
-```
-GET /posts?views_gte=10&views_lte=20
-```
+11) Get the Heroku MongoLab connection string into an .env file. 
 
-Add `_ne` to exclude a value
+	heroku config --shell | grep MONGODB_URI >> .env
 
-```
-GET /posts?id_ne=1
-```
+Your connection string to MongoDB will now be in a **.env** file now (go have a look at the .env file). Your app connects to this database in the app.js file:
 
-Add `_like` to filter (RegExp supported)
+app.db = mongoose.connect(process.env.MONGODB_URI);
 
-```
-GET /posts?title_like=server
-```
+Your **.env file** is a secret config file that holds key app variables like this MongoDB URI string, and other things like 3rd Party API secrets and keys. It is specified in the .gitignore file, which means the .env file will **not** be tracked by .git and not available for others to see on github (this is good).
 
-### Full-text search
+### Starting the Server
 
-Add `q`
+12) We're ready to go! Run **npm start** to start your server.
 
-```
-GET /posts?q=internet
-```
+	npm start
 
-### Relationships
+You can stop the server with Ctrl+c.
 
-To include children resources, add `_embed`
+However, a slight annoyance here is that **every** time you change your code, you'll need to stop and restart your server.
 
-```
-GET /posts?_embed=comments
-GET /posts/1?_embed=comments
-```
+A better option is to auto restart your server after you make some changes to your code. To do this, install **Nodemon**. [Nodemon](https://github.com/remy/nodemon) will watch your files and restart the server for you whenever your code changes.
 
-To include parent resource, add `_expand`
+Install Nodemon (you only need to do this **once**, and then it will be installed globally on your machine). In Terminal type,
 
-```
-GET /comments?_expand=post
-GET /comments/1?_expand=post
-```
+	npm install -g nodemon
 
-To get or create nested resources (by default one level, [add custom routes](#add-custom-routes) for more)
+Then, you can start the app with:
 
-```
-GET  /posts/1/comments
-POST /posts/1/comments
-```
+	nodemon
 
-### Database
+**Once you do this step, you should always start your app with nodemon**
 
-```
-GET /db
-```
+13) Open web browser to <http://localhost:3000> to view the web app.
 
-### Homepage
+14) Stop the web server press Ctrl+c in the Terminal window.
 
-Returns default index file or serves `./public` directory
+### Push Your App to Github and Heroku
 
-```
-GET /
-```
+As you make changes, you'll want to periodically push your updated code base to both Github and to Heroku (where it is publicly hosted).
 
-## Extras
+To get your updated code to **Heroku**, you'll need to:
 
-### Static file server
+	git add .
+	git commit -m "your commit message"
+	git push heroku master
 
-You can use JSON Server to serve your HTML, JS and CSS, simply create a `./public` directory
-or use `--static` to set a different static files directory.
+To get your updated code to **Github**, you'll need to:
 
-```bash
-mkdir public
-echo 'hello world' > public/index.html
-json-server db.json
-```
+	git add .
+	git commit -am "your commit message"
+	git push origin master
 
-```bash
-json-server db.json --static ./some-other-dir
-```
+**You don't need to double add and double commit though. So the following will work:**
 
-### Alternative port
+	git add .
+	git commit -am "your commit message"
+	git push origin master
+	git push heroku master
 
-You can start JSON Server on other ports with the `--port` flag:
+### This App's Framework and NodeJS
 
-```bash
-$ json-server --watch db.json --port 3004
-```
+This app uses the following libraries and concepts:
 
-### Access from anywhere
+#### ExpressJS
 
-You can access your fake API from anywhere using CORS and JSONP.
+ExpressJS (http://expressjs.com/) is a popular framework for building web applications in NodeJS.
 
-### Remote schema
+#### RESTful API Routes
 
-You can load remote schemas.
+Web service APIs that adhere to the REST architectural constraints are called RESTful APIs (http://en.wikipedia.org/wiki/Representational_state_transfer#Applied_to_web_services). HTTP based RESTful APIs are defined with these aspects:
 
-```bash
-$ json-server http://example.com/file.json
-$ json-server http://jsonplaceholder.typicode.com/db
-```
+* base URI, such as http://example.com/resources/ or http://example.com/api/
+* an Internet media type for the data. We are using JSON, but it can be any other valid Internet media type (e.g. XML, Atom, microformats, images, etc.)
+* standard HTTP methods (e.g., GET, PUT, POST, or DELETE) and standardized and descriptive naming in API endpoints
 
-### Generate random data
+Typical REST queries will look like:
 
-Using JS instead of a JSON file, you can create data programmatically.
+* CREATE - http://example.com/api/create (POST)
+* RETRIEVE 1 - http://example.com/api/get/:id (GET)
+* RETRIEVE ALL - http://example.com/api/get (GET)
+* UPDATE - http://example.com/api/update/:id (PUT)
+* DELETE - http://example.com/api/delete/:id (DELETE)
 
-```javascript
-// index.js
-module.exports = function() {
-  var data = { users: [] }
-  // Create 1000 users
-  for (var i = 0; i < 1000; i++) {
-    data.users.push({ id: i, name: 'user' + i })
-  }
-  return data
-}
-```
+The above are typically called API endpoints, and client applications interact with your API by sending requests to these endpoints. Remember, a client can be anything that can send an HTTP request, such as a browser, a mobile app, an Arduino Yun, etc.
 
-```bash
-$ json-server index.js
-```
+Routing is how your app handles these incoming HTTP requests: performing the appropriate action and responding back to the client.
 
-__Tip__ use modules like [Faker](https://github.com/Marak/faker.js), [Casual](https://github.com/boo1ean/casual), [Chance](https://github.com/victorquinn/chancejs) or [JSON Schema Faker](https://github.com/json-schema-faker/json-schema-faker).
+In node.js (using Express), this is done through executing a callback function. In human language: 
 
-### HTTPS
+	when this request is received, perform this action, and respond back (usually with JSON).
 
-There's many way to set up SSL in development. One simple way though is to use [hotel](https://github.com/typicode/hotel).
+For example:
 
-### Add custom routes
+  // when the user requests the 'api/get' route, call a function that retrieves the data, and responds back
 
-Create a `routes.json` file. Pay attention to start every route with `/`.
+	router.get('/api/get', function(req, res, next){
+		// step 1 - code to retrieve data
+		// step 2 - code to respond back with res.json();
+	})
 
-```json
-{
-  "/api/": "/",
-  "/blog/:resource/:id/show": "/:resource/:id",
-  "/blog/:category": "/posts?category=:category"
-}
-```
+-----
 
-Start JSON Server with `--routes` option.
+#### App Dependencies and package.json
 
-```bash
-json-server db.json --routes routes.json
-```
+A nice part about the ExpressJS framework (and nodejs in general) is the NPM system. NPM stands for Node Package Manager, and it allows us to include helpful node packages (libraries) that we can use in our app.
 
-Now you can access resources using additional routes.
+For example, open up package.json. You can see we are setting our dependent packages. When you run npm install, all of these dependencies will be installed in your node_modules folder.
 
-```sh
-/api/posts # → /posts
-/api/posts/1  # → /posts/1
-/blog/posts/1/show # → /posts/1
-/blog/javascript # → /posts?category=javascript
-```
+package.json
+	
+	"dependencies": {
+	  "body-parser": "~1.13.2",
+	  "cookie-parser": "~1.3.5",
+	  "debug": "~2.2.0",
+	  "express": "~4.13.1",
+	  "mongoose": "^4.1.10",
+	  "morgan": "~1.6.1",
+	  "node-env-file": "^0.1.7",
+	  "serve-favicon": "~2.3.0"
+	}
 
-### Add middlewares
+Dependencies are then declared in the app.js like:
 
-You can add your middlewares from the CLI using `--middlewares` option:
+	var express = require('express');
+	var path = require('path');
+	var favicon = require('serve-favicon');
+	var logger = require('morgan');
+	var cookieParser = require('cookie-parser');
+	var bodyParser = require('body-parser');
+	var mongoose = require('mongoose');
+	var env = require('node-env-file');
 
-```js
-// hello.js
-module.exports = function (req, res, next) {
-  res.header('X-Hello', 'World')
-  next()
-}
-```
+To add a new node package, do the following in terminal:
 
-```bash
-json-server db.json --middlewares ./hello.js
-json-server db.json --middlewares ./first.js ./second.js
-```
+	npm install --save nameOfPackage
 
-### CLI usage
-
-```
-json-server [options] <source>
-
-Options:
-  --config, -c       Path to config file           [default: "json-server.json"]
-  --port, -p         Set port                                    [default: 3000]
-  --host, -H         Set host                               [default: "0.0.0.0"]
-  --watch, -w        Watch file(s)                                     [boolean]
-  --routes, -r       Path to routes file
-  --middlewares, -m  Paths to middleware files                           [array]
-  --static, -s       Set static files directory
-  --read-only, --ro  Allow only GET requests                           [boolean]
-  --no-cors, --nc    Disable Cross-Origin Resource Sharing             [boolean]
-  --no-gzip, --ng    Disable GZIP Content-Encoding                     [boolean]
-  --snapshots, -S    Set snapshots directory                      [default: "."]
-  --delay, -d        Add delay to responses (ms)
-  --id, -i           Set database id property (e.g. _id)         [default: "id"]
-  --quiet, -q        Suppress log messages from output                 [boolean]
-  --help, -h         Show help                                         [boolean]
-  --version, -v      Show version number                               [boolean]
-
-Examples:
-  json-server db.json
-  json-server file.js
-  json-server http://example.com/db.json
-
-https://github.com/typicode/json-server
-```
-
-You can also set options in a `json-server.json` configuration file.
-
-```json
-{
-  "port": 3000
-}
-```
-
-### Module
-
-If you need to add authentication, validation, or __any behavior__, you can use the project as a module in combination with other Express middlewares.
-
-#### Simple example
-
-```js
-// server.js
-var jsonServer = require('json-server')
-var server = jsonServer.create()
-var router = jsonServer.router('db.json')
-var middlewares = jsonServer.defaults()
-
-server.use(middlewares)
-server.use(router)
-server.listen(3000, function () {
-  console.log('JSON Server is running')
-})
-```
-
-```sh
-$ node server.js
-```
-
-The path you provide to the `jsonServer.router` function  is relative to the directory from where you launch your node process. If you run the above code from another directory, it’s better to use an absolute path:
-
-```js
-var path = require('path')
-var router = jsonServer.router(path.join(__dirname, 'db.json'))
-```
-
-For an in-memory database, simply pass an object to `jsonServer.router()`.
-
-Please note also that `jsonServer.router()` can be used in existing Express projects.
-
-#### Custom routes example
-
-Let's say you want a route that echoes query parameters and another one that set a timestamp on every resource created.
-
-```js
-var jsonServer = require('json-server')
-var server = jsonServer.create()
-var router = jsonServer.router('db.json')
-var middlewares = jsonServer.defaults()
-
-// Set default middlewares (logger, static, cors and no-cache)
-server.use(middlewares)
-
-// Add custom routes before JSON Server router
-server.get('/echo', function (req, res) {
-  res.jsonp(req.query)
-})
-
-// To handle POST, PUT and PATCH you need to use a body-parser
-// You can use the one used by JSON Server
-server.use(jsonServer.bodyParser)
-server.use(function (req, res, next) {
-  if (req.method === 'POST') {
-    req.body.createdAt = Date.now()
-  }
-  // Continue to JSON Server router
-  next()
-})
-
-// Use default router
-server.use(router)
-server.listen(3000, function () {
-  console.log('JSON Server is running')
-})
-```
-
-#### Access control example
-
-```js
-var jsonServer = require('json-server')
-var server = jsonServer.create()
-var router = jsonServer.router('db.json')
-var middlewares = jsonServer.defaults()
-
-server.use(middlewares)
-server.use(function (req, res, next) {
- if (isAuthorized(req)) { // add your authorization logic here
-   next() // continue to JSON Server router
- } else {
-   res.sendStatus(401)
- }
-})
-server.use(router)
-server.listen(3000, function () {
-  console.log('JSON Server is running')
-})
-```
-
-#### Custom output example
-
-To modify responses, overwrite `router.render` method:
-
-```javascript
-// In this example, returned resources will be wrapped in a body property
-router.render = function (req, res) {
-  res.jsonp({
-   body: res.locals.data
-  })
-}
-```
-
-#### Rewriter example
-
-To add rewrite rules, use `jsonServer.rewriter()`:
-
-```javascript
-// Add this before server.use(router)
-server.use(jsonServer.rewriter({
-  '/api/': '/',
-  '/blog/:resource/:id/show': '/:resource/:id'
-}))
-```
-
-#### Mounting JSON Server on another endpoint example
-
-Alternatively, you can also mount the router on `/api`.
-
-```javascript
-server.use('/api', router)
-```
-
-### Deployment
-
-You can deploy JSON Server. For example, [JSONPlaceholder](http://jsonplaceholder.typicode.com) is an online fake API powered by JSON Server and running on Heroku.
-
-## Links
-
-### Video
-
-* [Creating Demo APIs with json-server on egghead.io](https://egghead.io/lessons/nodejs-creating-demo-apis-with-json-server)
-
-### Articles
-
-* [Node Module Of The Week - json-server](http://nmotw.in/json-server/)
-* [Mock up your REST API with JSON Server](http://www.betterpixels.co.uk/projects/2015/05/09/mock-up-your-rest-api-with-json-server/)
-* [ng-admin: Add an AngularJS admin GUI to any RESTful API](http://marmelab.com/blog/2014/09/15/easy-backend-for-your-restful-api.html)
-* [Fast prototyping using Restangular and Json-server](http://glebbahmutov.com/blog/fast-prototyping-using-restangular-and-json-server/)
-* [Create a Mock REST API in Seconds for Prototyping your Frontend](https://coligo.io/create-mock-rest-api-with-json-server/)
-* [No API? No Problem! Rapid Development via Mock APIs](https://medium.com/@housecor/rapid-development-via-mock-apis-e559087be066#.93d7w8oro)
-
-### Third-party tools
-
-* [Grunt JSON Server](https://github.com/tfiwm/grunt-json-server)
-* [Docker JSON Server](https://github.com/clue/docker-json-server)
-* [JSON Server GUI](https://github.com/naholyr/json-server-gui)
-* [JSON file generator](https://github.com/dfsq/json-server-init)
-* [JSON Server extension](https://github.com/maty21/json-server-extension)
-
-## License
-
-MIT - [Typicode](https://github.com/typicode)
+The --save flag will automatically include the package in package.json as a dependency.
