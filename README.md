@@ -216,3 +216,7 @@ To add a new node package, do the following in terminal:
 	npm install --save nameOfPackage
 
 The --save flag will automatically include the package in package.json as a dependency.
+
+
+
+heroku config --app restapi-express --shell | Findstr  MONGODB_URI >> .env
