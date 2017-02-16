@@ -1,6 +1,6 @@
 {
-  "name": "node-express-api-boilerplate",
-  "version": "0.0.1",
+  "name": "restapi-server",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "start": "node ./bin/www"
