@@ -36,11 +36,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 var routes = require('./routes/index');
 var routes_C_1_0 = require('./routes/C.1.0/index');
 var routes_C_1_1 = require('./routes/C.1.1/index');
+var routes_U_1_0 = require('./routes/U.1.0/index');
 
 //Multiple routes structure for different projects/versions
 app.use('/', routes);
-app.use('/v1', routes_C_1_0);
-app.use('/v2', routes_C_1_1);
+app.use('/v1', routes_U_1_0);
+app.use('/v2', routes_C_1_0);
+app.use('/v3', routes_C_1_1);
+
 
 //Catch 404 and forward to error handler
 app.use(function (req, res, next) {
