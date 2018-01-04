@@ -25,14 +25,14 @@ router.get('/show-pets', function(req,res){
  */
 router.get('/', function(req, res) {
   
-  // var jsonData = {
-  // 	'name': 'node-express-api-boilerplate',
-  // 	'api-status':'OK'
-  // }
+  var jsonData = {
+  	'name': 'node-express-api-boilerplate',
+  	'api-status':'OK'
+  }
 
   // respond with json data
-  //res.json(jsonData)
-  res.render('login.html');
+  res.json(jsonData)
+  //res.render('login.html');
 });
 
 // simple route to show an HTML page
