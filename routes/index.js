@@ -31,8 +31,8 @@ router.get('/', function(req, res) {
   }
 
   // respond with json data
-  res.json(jsonData)
-  //res.render('login.html');
+  //res.json(jsonData)
+  res.render('login.html');
 });
 
 // simple route to show an HTML page
