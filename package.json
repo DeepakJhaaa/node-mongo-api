@@ -16,10 +16,11 @@
     "node-env-file": "0.1.7",
     "serve-favicon": "~2.3.0",
     "bcrypt-nodejs": "0.0.3",
-    "socket.io": "1.4.6"
+    "socket.io": "1.4.6",
+    "jsonwebtoken": "^5.7.0"
   },
   "engines": {
     "node": "6.10.3",
-    "npm":"3.10.10"
+    "npm": "3.10.10"
   }
 }
