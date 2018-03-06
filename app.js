@@ -34,7 +34,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //Base routes location file for different projects/version
 var routes = require('./routes/index');
-var routes_U_1_0 = require('./routes/U.1.0/index');
+var routes_USER_1_0 = require('./routes/_USER.1.0/index');
 var routes_C_1_0 = require('./routes/C.1.0/index');
 var routes_C_1_1 = require('./routes/C.1.1/index');
 
@@ -51,7 +51,7 @@ app.use('/v3', routes_C_1_1);
 app.use('/s1', routes_S_1_0);
 
 // API Interface related to the User data fetch and update
-app.use('/u1', routes_U_1_0);
+app.use('/u1', routes_USER_1_0);
 
 //Catch 404 and forward to error handler
 app.use(function (req, res, next) {

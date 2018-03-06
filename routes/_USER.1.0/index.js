@@ -13,7 +13,7 @@ const _auth = require('./_authentication');
 router.get('/api/user/get', _getUsr.getUsers);
 router.get('/api/user/get/:id', _getUsr.getUser);
 router.get('/api/user/search', _getUsr.searchUser);
-router.post('/api/user/create', _auth.check, _modUsr.create);
+router.post('/api/user/create', _modUsr.create);
 router.post('/api/user/delete/:id', _auth.check, _modUsr.delete);
 router.post('/api/user/update/:id', _auth.check, _modUsr.update);
 

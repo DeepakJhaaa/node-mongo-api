@@ -5,7 +5,8 @@ exports.create = function (req, res, next) {
     //router.post('/api/user/create', function (req, res) {
     // Check for registration errors
 
-    const displayName = req.body.displayName;
+    const firstName = req.body.firstName;
+    const lastName = req.body.lastName;
     const email = req.body.email;
     const phoneNumber = req.body.phoneNumber;
 
@@ -14,7 +15,11 @@ exports.create = function (req, res, next) {
         return res.status(422).send({ error: 'You must enter an email address.' });
     }
     // Return error if full name not provided
-    if (!displayName) {
+    if (!firstName) {
+        return res.status(422).send({ error: 'You must enter your full name.' });
+    }
+    // Return error if full name not provided
+    if (!lastName) {
         return res.status(422).send({ error: 'You must enter your full name.' });
     }
     // Return error if no password provided
@@ -31,7 +36,8 @@ exports.create = function (req, res, next) {
         }
         // If email is unique and Phone Number was provided, create account
         const user = new User({
-            displayName: displayName,
+            firstName: firstName,
+            lastName: lastName,
             email: email,
             phoneNumber: phoneNumber
         });
