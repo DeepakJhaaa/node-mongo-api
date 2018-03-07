@@ -5,11 +5,11 @@ const User = require('./models/users.modal');
 // Registration Route
 //========================================
 
-// /**
-//  * GET '/api/get'
-//  * Receives a GET request to get all animal details
-//  * @return {Object} JSON
-//  */
+/*
+ * GET '/api/get'
+ * Receives a GET request to get all animal details
+ * @return {Object} JSON
+ */
 exports.getUsers = function (req, res) {
 
     User.find(function (err, data) {
@@ -29,12 +29,12 @@ exports.getUsers = function (req, res) {
 
 };
 
-// /**
-//  * GET '/api/get/:id'
-//  * Receives a GET request specifying the animal to get
-//  * @param  {String} req.params.id - The animalId
-//  * @return {Object} JSON
-//  */
+/*
+ * GET '/api/get/:id'
+ * Receives a GET request specifying the animal to get
+ * @param  {String} req.params.id - The animalId
+ * @return {Object} JSON
+ */
 exports.getUser = function (req, res) {
 
     var requestedId = req.params.id;
@@ -57,11 +57,11 @@ exports.getUser = function (req, res) {
     })
 };
 
-// /**
-//  * GET '/api/search'
-//  * Receives a GET request to search an animal
-//  * @return {Object} JSON
-//  */
+/*
+ * GET '/api/search'
+ * Receives a GET request to search an animal
+ * @return {Object} JSON
+ */
 exports.searchUser = function (req, res) {
     // router.get('/api/search', function (req, res) {
 

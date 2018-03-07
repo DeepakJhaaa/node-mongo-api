@@ -8,7 +8,7 @@ const _getUsr = require('./_getUsersData');
 const _modUsr = require('./_modifyUsersData');
 const _auth = require('./_authentication');
 
-// List of All the Routes available for API Version u1
+// List of All the Routes available for USER MANAGEMENT API
 
 router.get('/api/user/get', _getUsr.getUsers);
 router.get('/api/user/get/:id', _getUsr.getUser);
