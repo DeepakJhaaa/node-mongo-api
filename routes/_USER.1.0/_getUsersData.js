@@ -84,12 +84,10 @@ exports.searchUser = function (req, res) {
         }
 
         // otherwise, respond with the data 
-
         var jsonData = {
             status: 'OK',
             result: data
         }
-
         res.json(jsonData);
     })
 

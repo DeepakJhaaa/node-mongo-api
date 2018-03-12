@@ -48,6 +48,8 @@ app.use('/todos/v1', routes_TODO_1_0);
 app.use(function (req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
   next(err);
 });
 
