@@ -138,7 +138,7 @@ router.get('/api/delete/:id', function (req, res) {
     // Otherwise, respond back with success
     var jsonData = {
       status: 'OK',
-      message: 'Successfully deleted id: ' + requestedId
+      message: 'Successfully deleted id: ' + todoId
     }
     res.json(jsonData);
 
