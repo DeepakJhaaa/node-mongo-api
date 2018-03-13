@@ -90,7 +90,7 @@ router.post('/api/update', function (req, res) {
     // Add to object that holds updated data
     dataToUpdate['task'] = task;
   }
-  if (req.body.completed) {
+  if (req.body.completed !== undefined) {
     completed = req.body.completed;
     // Add to object that holds updated data
     dataToUpdate['completed'] = completed;
