@@ -1,5 +1,7 @@
 // Import the User Modal for the Further Use
-const User = require('./models/users.modal');
+const User = require('./models/user.modal');
+// Import the User Modal for the Further Use
+const Profile = require('./models/profile.modal');
 
 //========================================
 // Registration Route
@@ -38,7 +40,7 @@ exports.getUsers = function (req, res) {
 exports.getUser = function (req, res) {
 
     var requestedId = req.params.id;
-    User.findById(requestedId, function (err, data) {
+    Profile.findById(requestedId, function (err, data) {
 
         // if err or no user found, respond with error 
         if (err || data == null) {

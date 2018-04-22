@@ -1,5 +1,5 @@
 // Import the User Modal for the Further Use
-const User = require('./models/users.modal');
+const User = require('./models/user.modal');
 
 exports.create = function (req, res, next) {
     //router.post('/api/user/create', function (req, res) {
