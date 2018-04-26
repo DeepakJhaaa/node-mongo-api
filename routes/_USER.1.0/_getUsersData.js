@@ -44,10 +44,9 @@ exports.getUser = function (req, res) {
 
         // if err or no user found, respond with error 
         if (err || data == null) {
-            var error = { status: 'ERROR', message: 'Could not find that animal' };
+            var error = { status: 'ERROR', message: 'Could not find that User' };
             return res.json(error);
         }
-
         // otherwise respond with JSON data of the animal
         var jsonData = {
             status: 'OK',
