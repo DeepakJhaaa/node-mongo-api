@@ -40,7 +40,7 @@ exports.getUsers = function (req, res) {
 exports.getUser = function (req, res) {
 
     var requestedId = req.params.id;
-    Profile.findById(requestedId, function (err, data) {
+    User.findById(requestedId, function (err, data) {
 
         // if err or no user found, respond with error 
         if (err || data == null) {
