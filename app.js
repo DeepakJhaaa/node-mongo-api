@@ -8,6 +8,18 @@ var mongoose = require('mongoose');
 var env = require('node-env-file');
 
 var app = express();
+app.use(function (req, res, next) {
+  var allowedOrigins = ['http://www.dkjha.com', 'http://localhost:4200', 'http://ng5.dkjha.com'];
+  var origin = req.headers.origin;
+  if (allowedOrigins.indexOf(origin) > -1) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+  }
+
+  res.header('Access-Control-Allow-Methods', 'GET, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.header('Access-Control-Allow-Credentials', true);
+  return next();
+});
 
 // if in development mode, load .env variables
 if (app.get("env") === "development") {
