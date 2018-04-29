@@ -7,8 +7,12 @@ exports.create = function (req, res, next) {
 
     const firstName = req.body.firstName;
     const lastName = req.body.lastName;
+    const gender = req.body.gender;
     const email = req.body.email;
-    const phoneNumber = req.body.phoneNumber;
+    const phone = req.body.phone;
+    const address = req.body.address;
+    const about = req.body.about;
+
 
     // Return error if no email provided
     if (!email) {
@@ -23,7 +27,7 @@ exports.create = function (req, res, next) {
         return res.status(422).send({ error: 'You must enter your full name.' });
     }
     // Return error if no password provided
-    if (!phoneNumber) {
+    if (!phone) {
         return res.status(422).send({ error: 'You must enter your 10 digit Phone Number.' });
     }
     // Find if email ID already exists or not
@@ -38,8 +42,11 @@ exports.create = function (req, res, next) {
         const user = new User({
             firstName: firstName,
             lastName: lastName,
+            gender: gender,
             email: email,
-            phoneNumber: phoneNumber
+            phone: phone,
+            address: address,
+            about: about
         });
 
         user.save((err, data) => {
