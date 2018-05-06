@@ -9,6 +9,7 @@
         lastName: '{{surname()}}',
         gender: '{{gender()}}',
         email: '{{email()}}',
+        username:'{{firstName()}}{{surname()}}',
         phone: '+91 {{phone()}}',
         address: '{{integer(100, 999)}} {{street()}}, {{city()}}, {{state()}}, {{integer(100, 10000)}}',
         about: '{{lorem(1, "paragraphs")}}',

@@ -1,20 +1,33 @@
 //Import of Required Node Modules
-var express = require('express');
+var express = require("express");
 var router = express.Router();
-var mongoose = require('mongoose');
+var mongoose = require("mongoose");
 
 //Import of All the Module specific API's
-const _usr = require('./user');
-const _msg = require('./message');
+const _getUsr = require("./_getUsersData");
+const _modUsr = require("./_modifyUsersData");
+const _auth = require("./_authentication");
+const _msg = require("./_message");
 
 // List of All the Routes available for API Version v1
-router.post('/api/user/register', _usr.register);
-router.get('/api/user/get', _usr.getUsers);
-router.get('/api/user/get/:id', _usr.getUser);
-router.post('/api/message/new', _msg.newMessage);
-router.post('/api/message/reply', _msg.replyMessage);
-router.post('/api/message/getConversation', _msg.Conversataion);
-router.post('/api/message/getAllConversations', _msg.AllConversations);
+router.post("/api/message/new", _msg.newMessage);
+router.post("/api/message/reply", _msg.replyMessage);
+router.post("/api/message/getConversation", _msg.Conversataion);
+router.post("/api/message/getAllConversations", _msg.AllConversations);
+
+router.get("/api/user/get", _getUsr.getUsers);
+router.get("/api/user/get/:id", _getUsr.getUser);
+router.get("/api/user/profile", _getUsr.getProfile);
+router.get("/api/user/search", _getUsr.searchUser);
+router.post("/api/user/create", _modUsr.create);
+router.post("/api/user/delete/:id", _auth.check, _modUsr.delete);
+router.post("/api/user/update/:id", _auth.check, _modUsr.update);
+
+router.post("/api/admin/signin", _auth.signin);
+router.post("/api/admin/signup", _auth.signup);
+router.post("/api/admin/signout", _auth.check, _auth.signout);
+router.post("/api/admin/update", _auth.check, _auth.update);
+router.post("/api/admin/delete", _auth.check, _auth.delete);
 
 //Export this Module to the Main Module of server
 module.exports = router;

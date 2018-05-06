@@ -1,18 +1,17 @@
-var mongoose = require('mongoose');
+var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 
 //Create the Scheme for the Profile Modal
-var profileSchema = new Schema({
-    name: String,
-    age: Number,
-    gender: String,
-    email: String,
-    lastActive: { type: Date, default: Date.now },
-    geoCoords: String,
-    preference: String,
-    mood: String,
-    contacts: String,
-})
+var UserSchema = new Schema({
+  firstName: String,
+  lastName: String,
+  email: String,
+  phoneNumber: String,
+  gender: String,
+  type: String,
+  friends: Array,
+  dateAdded: { type: Date, default: Date.now }
+});
 
 //Export 'Profile' Model so we can interact with it in other files
-module.exports = mongoose.model('conezero_Profile', profileSchema);
+module.exports = mongoose.model("C10_Profile", UserSchema);

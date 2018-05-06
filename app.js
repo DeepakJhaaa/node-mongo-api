@@ -56,8 +56,8 @@ var routes_S_1_0 = require('./routes/S.1.0/index');
 //Multiple routes structure for different projects/versions
 app.use('/', routes);
 
-app.use('/v2', routes_C_1_0);
-app.use('/v3', routes_C_1_1);
+app.use('/c1', routes_C_1_0);
+app.use('/c2', routes_C_1_1);
 
 // All the secured connection request will pass through this pipeline
 app.use('/s1', routes_S_1_0);
