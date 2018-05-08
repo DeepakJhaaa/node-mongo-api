@@ -34,33 +34,26 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //Base routes location file for different projects/version
 var routes = require('./routes/index');
-var routes_C_1_0 = require('./routes/C.1.0/index');
-var routes_C_1_1 = require('./routes/C.1.1/index');
-var routes_U_1_0 = require('./routes/U.1.0/index');
-
-// Base routes for: All the secured connection request
-var routes_S_1_0 = require('./routes/S.1.0/index');
+var routes_USER_1_0 = require('./routes/_USER.1.0/index');
+var routes_TODO_1_0 = require('./routes/_TODO.1.0/index');
 
 //Multiple routes structure for different projects/versions
 app.use('/', routes);
-app.use('/v1', routes_U_1_0);
-app.use('/v2', routes_C_1_0);
-app.use('/v3', routes_C_1_1);
 
-// All the secured connection request will pass through this pipeline
-app.use('/s1', routes_S_1_0);
+// API Interface related to the User data fetch and update
+app.use('/users/v1', routes_USER_1_0);
+app.use('/todos/v1', routes_TODO_1_0);
 
 //Catch 404 and forward to error handler
 app.use(function (req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
   next(err);
 });
 
-// error handlers
-
-// development error handler
-// will print stacktrace
+// development error handler : will print stacktrace
 if (app.get('env') === 'development') {
   app.use(function (err, req, res, next) {
     res.status(err.status || 500);
@@ -71,8 +64,7 @@ if (app.get('env') === 'development') {
   });
 }
 
-// production error handler
-// no stacktraces leaked to user
+// production error handler : no stacktraces leaked to user
 app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.json({
@@ -80,6 +72,5 @@ app.use(function (err, req, res, next) {
     error: {}
   });
 });
-
 
 module.exports = app;
