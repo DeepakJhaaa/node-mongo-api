@@ -10,4 +10,4 @@ var UserSchema = new Schema({
 })
 
 //Export 'Profile' Model so we can interact with it in other files
-module.exports = mongoose.model('user_management1', UserSchema);
+module.exports = mongoose.model('User', UserSchema);

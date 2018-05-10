@@ -15,4 +15,4 @@ var profileSchema = new Schema({
 })
 
 //Export 'Profile' Model so we can interact with it in other files
-module.exports = mongoose.model('conezero_ProfileNew', profileSchema);
+module.exports = mongoose.model('conezero_Profile', profileSchema);

@@ -1,30 +1,33 @@
-// Import the User Modal for the Further Use
-const User = require('./models/users.modal');
 
-exports.create = function (req, res, next) {
+// Import the User Modal for the Further Use
+// used to create, sign, and verify tokens
+var jwt = require('jsonwebtoken');
+const secretKey = require('./config');
+var jwt = require('jsonwebtoken');
+var express = require('express');
+var router = express.Router();
+
+var app = express();
+
+exports.signup = function (req, res, next) {
     //router.post('/api/user/create', function (req, res) {
     // Check for registration errors
 
-    const firstName = req.body.firstName;
-    const lastName = req.body.lastName;
+    const displayName = req.body.displayName;
     const email = req.body.email;
-    const phoneNumber = req.body.phoneNumber;
+    const password = req.body.password;
 
     // Return error if no email provided
     if (!email) {
         return res.status(422).send({ error: 'You must enter an email address.' });
     }
     // Return error if full name not provided
-    if (!firstName) {
-        return res.status(422).send({ error: 'You must enter your full name.' });
-    }
-    // Return error if full name not provided
-    if (!lastName) {
+    if (!displayName) {
         return res.status(422).send({ error: 'You must enter your full name.' });
     }
     // Return error if no password provided
-    if (!phoneNumber) {
-        return res.status(422).send({ error: 'You must enter your 10 digit Phone Number.' });
+    if (!password) {
+        return res.status(422).send({ error: 'You must enter Password.' });
     }
     // Find if email ID already exists or not
     User.findOne({ email }, (err, existingUser) => {
@@ -36,10 +39,9 @@ exports.create = function (req, res, next) {
         }
         // If email is unique and Phone Number was provided, create account
         const user = new User({
-            firstName: firstName,
-            lastName: lastName,
+            displayName: displayName,
             email: email,
-            phoneNumber: phoneNumber
+            password: password
         });
 
         user.save((err, data) => {
@@ -56,7 +58,76 @@ exports.create = function (req, res, next) {
         });
     });
 };
+exports.signin = function (req, res) {
+    // find the user
+    User.findOne({
+        email: req.body.email
+    }, function (err, user) {
 
+        if (err) throw err;
+
+        if (!user) {
+            res.json({ success: false, message: 'Authentication failed. User not found.' });
+        } else if (user) {
+
+            // check if password matches
+            if (user.password != req.body.password) {
+                res.json({ success: false, message: 'Authentication failed. Wrong password.' });
+            } else {
+
+                // if user is found and password is right
+                // create a token
+                var payload = {
+                    admin: user.admin
+                }
+                var token = jwt.sign(payload, secretKey.secret, {
+                    expiresIn: 86400 // expires in 24 hours
+                });
+
+                res.json({
+                    success: true,
+                    message: 'Enjoy your token!',
+                    token: token
+                });
+            }
+
+        }
+
+    });
+
+}
+
+exports.check = function (req, res, next) {
+    console.log(req.body);
+    // check header or url parameters or post parameters for token
+    var token = req.body.token || req.query.token || req.headers['x-access-token'];
+
+    // decode token
+    if (token) {
+
+        // verifies secret and checks exp
+        jwt.verify(token, secretKey.secret, function (err, decoded) {
+            if (err) {
+                return res.json({ success: false, message: 'Failed to authenticate token.' });
+            } else {
+                // if everything is good, save to request for use in other routes
+                req.decoded = decoded;
+                next();
+            }
+        });
+
+    } else {
+
+        // if there is no token
+        // return an error
+        return res.status(403).send({
+            success: false,
+            message: 'No token provided.'
+        });
+
+    }
+
+}
 // /**
 //  * POST '/api/update/:id'
 //  * Receives a POST request with data of the animal to update, updates db, responds back
@@ -115,7 +186,7 @@ exports.update = function (req, res) {
     console.log('the data to update is ' + JSON.stringify(dataToUpdate));
 
     // now, update that animal
-    // mongoose method findByIdAndUpdate, see http://mongoosejs.com/docs/api.html#model_Model.findByIdAndUpdate  
+    // mongoose method findByIdAndUpdate, see http://mongoosejs.com/docs/api.html#model_Model.findByIdAndUpdate
     Animal.findByIdAndUpdate(requestedId, dataToUpdate, function (err, data) {
         // if err saving, respond back with error
         if (err) {
@@ -147,6 +218,33 @@ exports.update = function (req, res) {
 exports.delete = function (req, res) {
     //router.get('/api/delete/:id', function (req, res) {
 
+    var requestedId = req.body.id;
+    var token = req.body.token;
+
+    // Mongoose method to remove, http://mongoosejs.com/docs/api.html#model_Model.findByIdAndRemove
+    User.findByIdAndRemove(requestedId, function (err, data) {
+        if (err || data == null) {
+            var error = { status: 'ERROR', message: 'Could not find that animal to delete' };
+            return res.json(error);
+        }
+
+        // otherwise, respond back with success
+        var jsonData = {
+            status: 'OK',
+            message: 'Successfully deleted id ' + requestedId
+        }
+
+        res.json(jsonData);
+
+    })
+
+}
+
+
+
+exports.signout = function (req, res) {
+    //router.get('/api/delete/:id', function (req, res) {
+
     var requestedId = req.params.id;
 
     // Mongoose method to remove, http://mongoosejs.com/docs/api.html#model_Model.findByIdAndRemove
@@ -167,3 +265,7 @@ exports.delete = function (req, res) {
     })
 
 }
+
+// ---------------------------------------------------------
+// route middleware to authenticate and check token
+// ---------------------------------------------------------

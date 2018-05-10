@@ -7,12 +7,16 @@ const Conversation = require('./models/conversation.modal');
 // Registration Route
 //========================================
 exports.newMessage = function (req, res) {
-    console.log("New Message API Called");
+    console.log("New Message API Called -001");
+    console.log("_id : " + req);
+    console.log("recipient : " + req.body.recipient);
     const conversation = new Conversation({
-        participants: [req.body._id, req.params.recipient]
+        participants: [req.body._id, req.body.recipient]
     });
 
     conversation.save((err, newConversation) => {
+        console.log("new conversation ID");
+        console.log(newConversation._id);
         if (err) {
             res.send({ error: err });
             return next(err);

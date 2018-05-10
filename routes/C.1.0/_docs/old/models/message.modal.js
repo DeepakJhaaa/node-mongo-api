@@ -19,4 +19,4 @@ const MessageSchema = new Schema({
     timestamps: true // Saves createdAt and updatedAt as dates. createdAt will be our timestamp.
   });
 
-module.exports = mongoose.model('MessageNew1', MessageSchema);
+module.exports = mongoose.model('Message', MessageSchema);
