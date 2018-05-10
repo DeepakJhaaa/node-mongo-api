@@ -17,8 +17,6 @@ var UserSchema = new Schema({
     friends: [],
     type: String,
     dateAdded: { type: Date, default: Date.now },
-
-
 })
 
 //Export 'Profile' Model so we can interact with it in other files

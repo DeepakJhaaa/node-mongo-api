@@ -1,6 +1,5 @@
 
 // Import the User Modal for the Further Use
-const User = require('./models/admin.modal');
 // used to create, sign, and verify tokens
 var jwt = require('jsonwebtoken');
 const secretKey = require('./config');
@@ -187,7 +186,7 @@ exports.update = function (req, res) {
     console.log('the data to update is ' + JSON.stringify(dataToUpdate));
 
     // now, update that animal
-    // mongoose method findByIdAndUpdate, see http://mongoosejs.com/docs/api.html#model_Model.findByIdAndUpdate  
+    // mongoose method findByIdAndUpdate, see http://mongoosejs.com/docs/api.html#model_Model.findByIdAndUpdate
     Animal.findByIdAndUpdate(requestedId, dataToUpdate, function (err, data) {
         // if err saving, respond back with error
         if (err) {
