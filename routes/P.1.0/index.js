@@ -62,6 +62,28 @@ router.get("/api/get", function(req, res) {
 });
 
 /*
+ * GET '/api/get/:id'
+ * Receives a GET request to get single player
+ * @return {Object} JSON
+ */
+router.get("/api/get/:id", function(req, res) {
+  var playerId = req.params.id;
+
+  Player.findById(playerId, function(err, data) {
+    if (err || data == null) {
+      var error = { status: "ERROR", message: "Could not find data." };
+      return res.json(error);
+    }
+    // otherwise respond with JSON data of the player
+    var jsonData = {
+      status: "OK",
+      player: data
+    };
+    return res.json(jsonData);
+  });
+});
+
+/*
  * POST '/api/update'
  * Receives a POST request with data of the player to update, updates db, responds back
  * @param  {String} req.body.id - The playerId to update
@@ -70,7 +92,7 @@ router.get("/api/get", function(req, res) {
  */
 
 router.post("/api/update", function(req, res) {
-  var playerId = req.body.id;
+  var playerId = req.body._id;
   var dataToUpdate = {};
   var fname, lname, salary, points, rebounds, assists, steals, blocks;
 
@@ -140,7 +162,7 @@ router.get("/api/delete/:id", function(req, res) {
     }
     var jsonData = {
       status: "OK",
-      message: "Successfully deleted id: " + requestedId
+      message: "Successfully deleted id: " + playerId
     };
     res.json(jsonData);
   });
