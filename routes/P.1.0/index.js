@@ -2,7 +2,7 @@ var express = require("express");
 var router = express.Router();
 var mongoose = require("mongoose");
 
-// Todo Model to Store the Data in MongoDB
+// Player Model to Store the Data in MongoDB
 var Player = require("./models/player.model.js");
 
 /*
