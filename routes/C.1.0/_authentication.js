@@ -92,10 +92,11 @@ exports.signin = function(req, res) {
           var token = jwt.sign(payload, secretKey.secret, {
             expiresIn: 86400 // expires in 24 hours
           });
-          console.log(user);
           const usrname = user.username;
-          console.log(usrname);
-
+          res.cookie("jwtToken", token, {
+            httpOnly: true,
+            path: "/"
+          });
           res.json({
             success: true,
             message: "Enjoy your token!",
@@ -138,13 +139,14 @@ exports.check = function(req, res, next) {
     });
   }
 };
-// /**
-//  * POST '/api/update/:id'
-//  * Receives a POST request with data of the animal to update, updates db, responds back
-//  * @param  {String} req.params.id - The animalId to update
-//  * @param  {Object} req. An object containing the different attributes of the Animal
-//  * @return {Object} JSON
-//  */
+
+/**
+ * POST '/api/update/:id'
+ * Receives a POST request with data of the animal to update, updates db, responds back
+ * @param  {String} req.params.id - The animalId to update
+ * @param  {Object} req. An object containing the different attributes of the Animal
+ * @return {Object} JSON
+ */
 exports.update = function(req, res) {
   // router.post('/api/update/:id', function (req, res) {
 
