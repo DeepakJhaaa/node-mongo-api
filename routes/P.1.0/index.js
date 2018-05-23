@@ -130,7 +130,7 @@ router.post("/api/update", function(req, res) {
 router.get("/api/delete/:id", function(req, res) {
   var playerId = req.params.id;
 
-  Player.findByIdAndRemove(todoId, function(err, data) {
+  Player.findByIdAndRemove(playerId, function(err, data) {
     if (err || data == null) {
       var error = {
         status: "ERROR",
