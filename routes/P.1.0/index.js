@@ -129,6 +129,7 @@ router.post("/api/update", function(req, res) {
     blocks = req.body.blocks;
     dataToUpdate["blocks"] = blocks;
   }
+  console.log("playerId : " + playerId);
 
   Player.findByIdAndUpdate(playerId, dataToUpdate, function(err, data) {
     if (err) {
