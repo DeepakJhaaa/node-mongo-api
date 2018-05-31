@@ -5,7 +5,7 @@ var Schema = mongoose.Schema;
 var PlayerSchema = new Schema({
   fname: String,
   lname: String,
-  salary: String,
+  salary: Number,
   points: Number,
   rebounds: Number,
   assists: Number,
