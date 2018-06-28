@@ -19,8 +19,8 @@
     "node-env-file": "0.1.7",
     "nodemon": "^1.17.4",
     "serve-favicon": "~2.3.0",
-    "ts-loader": "^2.3.7",
-    "socket.io": "1.4.6"
+    "socket.io": "^1.4.6",
+    "ts-loader": "^2.3.7"
   },
   "engines": {
     "node": "6.10.3",

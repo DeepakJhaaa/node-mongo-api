@@ -1,10 +1,10 @@
 // Import the User Modal for the Further Use
-const User = require("./models/user.modal");
+const User = require('./models/user.modal');
 // used to create, sign, and verify tokens
-var jwt = require("jsonwebtoken");
-const secretKey = require("./config");
-var jwt = require("jsonwebtoken");
-var express = require("express");
+var jwt = require('jsonwebtoken');
+const secretKey = require('./config');
+var jwt = require('jsonwebtoken');
+var express = require('express');
 var router = express.Router();
 
 var app = express();
@@ -19,15 +19,15 @@ exports.signup = function(req, res, next) {
 
   // Return error if no email provided
   if (!email) {
-    return res.status(422).send({ error: "You must enter an email address." });
+    return res.status(422).send({ error: 'You must enter an email address.' });
   }
   // Return error if full name not provided
   if (!displayName) {
-    return res.status(422).send({ error: "You must enter your full name." });
+    return res.status(422).send({ error: 'You must enter your full name.' });
   }
   // Return error if no password provided
   if (!password) {
-    return res.status(422).send({ error: "You must enter Password." });
+    return res.status(422).send({ error: 'You must enter Password.' });
   }
   // Find if email ID already exists or not
   User.findOne({ email }, (err, existingUser) => {
@@ -39,7 +39,7 @@ exports.signup = function(req, res, next) {
     if (existingUser) {
       return res
         .status(422)
-        .send({ error: "That email address is already in use." });
+        .send({ error: 'That email address is already in use.' });
     }
     // If email is unique and Phone Number was provided, create account
     const user = new User({
@@ -50,12 +50,12 @@ exports.signup = function(req, res, next) {
 
     user.save((err, data) => {
       if (err) {
-        var error = { status: "ERROR", message: "Error saving User Data" };
+        var error = { status: 'ERROR', message: 'Error saving User Data' };
         return res.json(error);
       }
       //Now return the json data of the new profile
       var jsonData = {
-        status: "OK",
+        status: 'OK',
         user: data
       };
       return res.json(jsonData);
@@ -74,14 +74,14 @@ exports.signin = function(req, res) {
       if (!user) {
         res.json({
           success: false,
-          message: "Authentication failed. User not found."
+          message: 'Authentication failed. User not found.'
         });
       } else if (user) {
         // check if password matches
         if (user.password != req.body.password) {
           res.json({
             success: false,
-            message: "Authentication failed. Wrong password."
+            message: 'Authentication failed. Wrong password.'
           });
         } else {
           // if user is found and password is right
@@ -93,13 +93,13 @@ exports.signin = function(req, res) {
             expiresIn: 86400 // expires in 24 hours
           });
           const usrname = user.username;
-          res.cookie("jwtToken", token, {
+          res.cookie('jwtToken', token, {
             httpOnly: true,
-            path: "/"
+            path: '/'
           });
           res.json({
             success: true,
-            message: "Enjoy your token!",
+            message: 'Enjoy your token!',
             token: token,
             username: usrname
           });
@@ -113,7 +113,7 @@ exports.check = function(req, res, next) {
   console.log(req.body);
   // check header or url parameters or post parameters for token
   var token =
-    req.body.token || req.query.token || req.headers["x-access-token"];
+    req.body.token || req.query.token || req.headers['x-access-token'];
 
   // decode token
   if (token) {
@@ -122,7 +122,7 @@ exports.check = function(req, res, next) {
       if (err) {
         return res.json({
           success: false,
-          message: "Failed to authenticate token."
+          message: 'Failed to authenticate token.'
         });
       } else {
         // if everything is good, save to request for use in other routes
@@ -135,7 +135,7 @@ exports.check = function(req, res, next) {
     // return an error
     return res.status(403).send({
       success: false,
-      message: "No token provided."
+      message: 'No token provided.'
     });
   }
 };
@@ -162,55 +162,55 @@ exports.update = function(req, res) {
   if (req.body.name) {
     name = req.body.name;
     // add to object that holds updated data
-    dataToUpdate["name"] = name;
+    dataToUpdate['name'] = name;
   }
   if (req.body.age) {
     age = req.body.age;
     // add to object that holds updated data
-    dataToUpdate["age"] = age;
+    dataToUpdate['age'] = age;
   }
   if (req.body.weight) {
     weight = req.body.weight;
     // add to object that holds updated data
-    dataToUpdate["description"] = {};
-    dataToUpdate["description"]["weight"] = weight;
+    dataToUpdate['description'] = {};
+    dataToUpdate['description']['weight'] = weight;
   }
   if (req.body.color) {
     color = req.body.color;
     // add to object that holds updated data
-    if (!dataToUpdate["description"]) dataToUpdate["description"] = {};
-    dataToUpdate["description"]["color"] = color;
+    if (!dataToUpdate['description']) dataToUpdate['description'] = {};
+    dataToUpdate['description']['color'] = color;
   }
   if (req.body.url) {
     url = req.body.url;
     // add to object that holds updated data
-    dataToUpdate["url"] = url;
+    dataToUpdate['url'] = url;
   }
 
   var tags = []; // blank array to hold tags
   if (req.body.tags) {
-    tags = req.body.tags.split(","); // split string into array
+    tags = req.body.tags.split(','); // split string into array
     // add to object that holds updated data
-    dataToUpdate["tags"] = tags;
+    dataToUpdate['tags'] = tags;
   }
 
-  console.log("the data to update is " + JSON.stringify(dataToUpdate));
+  console.log('the data to update is ' + JSON.stringify(dataToUpdate));
 
   // now, update that animal
   // mongoose method findByIdAndUpdate, see http://mongoosejs.com/docs/api.html#model_Model.findByIdAndUpdate
   Animal.findByIdAndUpdate(requestedId, dataToUpdate, function(err, data) {
     // if err saving, respond back with error
     if (err) {
-      var error = { status: "ERROR", message: "Error updating animal" };
+      var error = { status: 'ERROR', message: 'Error updating animal' };
       return res.json(error);
     }
 
-    console.log("updated the animal!");
+    console.log('updated the animal!');
     console.log(data);
 
     // now return the json data of the new person
     var jsonData = {
-      status: "OK",
+      status: 'OK',
       animal: data
     };
 
@@ -234,16 +234,16 @@ exports.delete = function(req, res) {
   User.findByIdAndRemove(requestedId, function(err, data) {
     if (err || data == null) {
       var error = {
-        status: "ERROR",
-        message: "Could not find that animal to delete"
+        status: 'ERROR',
+        message: 'Could not find that animal to delete'
       };
       return res.json(error);
     }
 
     // otherwise, respond back with success
     var jsonData = {
-      status: "OK",
-      message: "Successfully deleted id " + requestedId
+      status: 'OK',
+      message: 'Successfully deleted id ' + requestedId
     };
 
     res.json(jsonData);
@@ -259,16 +259,16 @@ exports.signout = function(req, res) {
   User.findByIdAndRemove(requestedId, function(err, data) {
     if (err || data == null) {
       var error = {
-        status: "ERROR",
-        message: "Could not find that animal to delete"
+        status: 'ERROR',
+        message: 'Could not find that animal to delete'
       };
       return res.json(error);
     }
 
     // otherwise, respond back with success
     var jsonData = {
-      status: "OK",
-      message: "Successfully deleted id " + requestedId
+      status: 'OK',
+      message: 'Successfully deleted id ' + requestedId
     };
 
     res.json(jsonData);
