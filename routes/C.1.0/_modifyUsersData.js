@@ -7,10 +7,10 @@ exports.create = function(req, res, next) {
 
   const firstName = req.body.firstName;
   const lastName = req.body.lastName;
+  const username = req.body.username;
   const email = req.body.email;
   const phone = req.body.phone;
   const password = req.body.password;
-  const username = req.body.username;
 
   // Return error if no email provided
   if (!email) {
@@ -46,10 +46,10 @@ exports.create = function(req, res, next) {
     const user = new User({
       firstName: firstName,
       lastName: lastName,
+      username: username,
       email: email,
       phone: phone,
-      password: password,
-      username: username
+      password: password
     });
 
     user.save((err, data) => {

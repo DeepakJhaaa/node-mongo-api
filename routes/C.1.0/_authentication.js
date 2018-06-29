@@ -94,6 +94,7 @@ exports.signin = function(req, res) {
           });
           const usrname = user.username;
           const _id = user._id;
+          const firstName = user.firstName;
           res.cookie('jwtToken', token, {
             httpOnly: true,
             path: '/'
@@ -102,6 +103,7 @@ exports.signin = function(req, res) {
             success: true,
             message: 'Enjoy your token!',
             token: token,
+            firstName: firstName,
             username: usrname,
             _id: _id
           });
@@ -112,10 +114,9 @@ exports.signin = function(req, res) {
 };
 
 exports.check = function(req, res, next) {
-  console.log(req.body);
+  console.log(req.headers);
   // check header or url parameters or post parameters for token
-  var token =
-    req.body.token || req.query.token || req.headers['x-access-token'];
+  var token = req.body.token || req.query.token || req.headers['authorization'];
 
   // decode token
   if (token) {
