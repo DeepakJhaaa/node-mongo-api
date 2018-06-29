@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
+const _auth = require('../C.1.0/_authentication');
 
 // Todo Model to Store the Data in MongoDB
 var Todo = require('./models/todo.model.js');
@@ -14,12 +15,16 @@ var Todo = require('./models/todo.model.js');
 router.post('/api/newTodo', function(req, res) {
   // Extract the information from the req.body
   var task = req.body.task;
+  var userId = req.body.userId;
   var completed = false;
+
+  console.log(req.body);
 
   // Hold all this data in an object AND structured should be same as DB Model
   var todoObj = {
     task: task,
-    completed: completed
+    completed: completed,
+    userId: userId
   };
 
   // Create a new todo model instance, passing in the object
@@ -47,7 +52,7 @@ router.post('/api/newTodo', function(req, res) {
  * Receives a GET request to get all Todos
  * @return {Object} JSON
  */
-router.get('/api/get', function(req, res) {
+router.post('/api/get', _auth.check, function(req, res) {
   // mongoose method to find all
   Todo.find(function(err, data) {
     // If Error OR No Todos found, respond with error
@@ -65,6 +70,31 @@ router.get('/api/get', function(req, res) {
   });
 });
 
+/*
+ * GET '/api/get'
+ * Receives a GET request to get all Todos
+ * @return {Object} JSON
+ */
+router.post('/api/getTodos', _auth.check, function(req, res) {
+  // Extract the information from the req.body
+  var _userId = req.body.userId;
+
+  // mongoose method to find all
+  Todo.find({ userId: _userId }, function(err, data) {
+    // If Error OR No Todos found, respond with error
+    if (err || data == null) {
+      var error = { status: 'ERROR', message: 'No Todos found.' };
+      return res.json(error);
+    }
+
+    // Otherwise, respond with the all Todo's in responsedata
+    var jsonData = {
+      status: 'OK',
+      todos: data
+    };
+    res.json(jsonData);
+  });
+});
 /*
  * POST '/api/update'
  * Receives a POST request with data of the animal to update, updates db, responds back

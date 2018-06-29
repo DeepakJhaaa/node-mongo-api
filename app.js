@@ -10,12 +10,21 @@ var env = require('node-env-file');
 
 var app = express();
 app.use(function(req, res, next) {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Credentials', true);
-  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,OPTIONS,DELETE,PUT');
+  var allowedOrigins = [
+    'http://ng-todo.dkjha.com',
+    'https://ngx-todo.dkjha.com',
+    'http://localhost:4200'
+  ];
+  var origin = req.headers.origin;
+  if (allowedOrigins.indexOf(origin) > -1) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+  }
+  res.header('Access-Control-Allow-Methods', 'GET,POST,OPTIONS,DELETE,PUT');
+  res.header('Access-Control-Allow-Credentials', true);
+  res.header('Access-Control-Allow-Methods', 'GET,POST,OPTIONS,DELETE,PUT');
   res.header(
     'Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, Content-Type, Accept'
+    'Origin, X-Requested-With, Content-Type, Accept, Authorization'
   );
   next();
 });

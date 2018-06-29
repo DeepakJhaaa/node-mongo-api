@@ -93,6 +93,7 @@ exports.signin = function(req, res) {
             expiresIn: 86400 // expires in 24 hours
           });
           const usrname = user.username;
+          const _id = user._id;
           res.cookie('jwtToken', token, {
             httpOnly: true,
             path: '/'
@@ -101,7 +102,8 @@ exports.signin = function(req, res) {
             success: true,
             message: 'Enjoy your token!',
             token: token,
-            username: usrname
+            username: usrname,
+            _id: _id
           });
         }
       }
