@@ -16,9 +16,8 @@ var sampleTodos = require('./sample/sample.todo.js');
 router.post('/api/newTodo', function(req, res) {
   // Extract the information from the req.body
   var task = req.body.task;
-  var userId = req.body.userId;
+  var userId = req.body.userId || req.headers.unique_key;
   var completed = false;
-
   console.log(req.headers);
 
   // Hold all this data in an object AND structured should be same as DB Model
@@ -114,6 +113,8 @@ router.get('/api/getTodos', _auth.check, function(req, res) {
  */
 
 router.post('/api/update', function(req, res) {
+  console.log(req.body);
+  console.log('Update Todo Api Requested.');
   var todoId = req.body.id;
   // A Blank Object of Data to Update
   var dataToUpdate = {};

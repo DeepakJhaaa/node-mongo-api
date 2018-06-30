@@ -1,7 +1,6 @@
 module.exports = function(io) {
-  console.log('Chat File Loaded.');
   io.on('connection', socket => {
-    console.log('User Connected');
+    console.log('User Connected on Socket.');
 
     socket.on('join', (params, callback) => {
       // console.log(params);

@@ -114,7 +114,6 @@ exports.signin = function(req, res) {
 };
 
 exports.check = function(req, res, next) {
-  console.log(req.headers);
   // check header or url parameters or post parameters for token
   var token = req.body.token || req.query.token || req.headers['authorization'];
 
@@ -207,9 +206,6 @@ exports.update = function(req, res) {
       var error = { status: 'ERROR', message: 'Error updating animal' };
       return res.json(error);
     }
-
-    console.log('updated the animal!');
-    console.log(data);
 
     // now return the json data of the new person
     var jsonData = {
