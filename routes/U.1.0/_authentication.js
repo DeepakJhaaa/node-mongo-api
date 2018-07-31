@@ -128,13 +128,13 @@ exports.check = function (req, res, next) {
     }
 
 }
-/*
- * POST '/api/update/:id'
- * Receives a POST request with data of the animal to update, updates db, responds back
- * @param  {String} req.params.id - The animalId to update
- * @param  {Object} req. An object containing the different attributes of the Animal
- * @return {Object} JSON
- */
+// /**
+//  * POST '/api/update/:id'
+//  * Receives a POST request with data of the animal to update, updates db, responds back
+//  * @param  {String} req.params.id - The animalId to update
+//  * @param  {Object} req. An object containing the different attributes of the Animal
+//  * @return {Object} JSON
+//  */
 exports.update = function (req, res) {
     // router.post('/api/update/:id', function (req, res) {
 
@@ -209,7 +209,7 @@ exports.update = function (req, res) {
 
 }
 
-/*
+/**
  * GET '/api/delete/:id'
  * Receives a GET request specifying the animal to delete
  * @param  {String} req.params.id - The animalId
