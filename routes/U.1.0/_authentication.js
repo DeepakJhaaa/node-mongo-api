@@ -1,6 +1,5 @@
 
 // Import the User Modal for the Further Use
-const User = require('./models/admin.modal');
 // used to create, sign, and verify tokens
 var jwt = require('jsonwebtoken');
 const secretKey = require('./config');
@@ -129,13 +128,13 @@ exports.check = function (req, res, next) {
     }
 
 }
-/*
- * POST '/api/update/:id'
- * Receives a POST request with data of the animal to update, updates db, responds back
- * @param  {String} req.params.id - The animalId to update
- * @param  {Object} req. An object containing the different attributes of the Animal
- * @return {Object} JSON
- */
+// /**
+//  * POST '/api/update/:id'
+//  * Receives a POST request with data of the animal to update, updates db, responds back
+//  * @param  {String} req.params.id - The animalId to update
+//  * @param  {Object} req. An object containing the different attributes of the Animal
+//  * @return {Object} JSON
+//  */
 exports.update = function (req, res) {
     // router.post('/api/update/:id', function (req, res) {
 
@@ -187,7 +186,7 @@ exports.update = function (req, res) {
     console.log('the data to update is ' + JSON.stringify(dataToUpdate));
 
     // now, update that animal
-    // mongoose method findByIdAndUpdate, see http://mongoosejs.com/docs/api.html#model_Model.findByIdAndUpdate  
+    // mongoose method findByIdAndUpdate, see http://mongoosejs.com/docs/api.html#model_Model.findByIdAndUpdate
     Animal.findByIdAndUpdate(requestedId, dataToUpdate, function (err, data) {
         // if err saving, respond back with error
         if (err) {
@@ -210,7 +209,7 @@ exports.update = function (req, res) {
 
 }
 
-/*
+/**
  * GET '/api/delete/:id'
  * Receives a GET request specifying the animal to delete
  * @param  {String} req.params.id - The animalId

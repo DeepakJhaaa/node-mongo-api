@@ -1,15 +1,17 @@
 // Import the User Modal for the Further Use
-const User = require('./models/users.modal');
+const User = require('./models/user.modal');
+// Import the User Modal for the Further Use
+const Profile = require('./models/profile.modal');
 
 //========================================
 // Registration Route
 //========================================
 
-/*
- * GET '/api/get'
- * Receives a GET request to get all animal details
- * @return {Object} JSON
- */
+// /**
+//  * GET '/api/get'
+//  * Receives a GET request to get all animal details
+//  * @return {Object} JSON
+//  */
 exports.getUsers = function (req, res) {
 
     User.find(function (err, data) {
@@ -29,12 +31,12 @@ exports.getUsers = function (req, res) {
 
 };
 
-/*
- * GET '/api/get/:id'
- * Receives a GET request specifying the animal to get
- * @param  {String} req.params.id - The animalId
- * @return {Object} JSON
- */
+// /**
+//  * GET '/api/get/:id'
+//  * Receives a GET request specifying the animal to get
+//  * @param  {String} req.params.id - The animalId
+//  * @return {Object} JSON
+//  */
 exports.getUser = function (req, res) {
 
     var requestedId = req.params.id;
@@ -42,10 +44,9 @@ exports.getUser = function (req, res) {
 
         // if err or no user found, respond with error 
         if (err || data == null) {
-            var error = { status: 'ERROR', message: 'Could not find that animal' };
+            var error = { status: 'ERROR', message: 'Could not find that User' };
             return res.json(error);
         }
-
         // otherwise respond with JSON data of the animal
         var jsonData = {
             status: 'OK',
@@ -57,11 +58,11 @@ exports.getUser = function (req, res) {
     })
 };
 
-/*
- * GET '/api/search'
- * Receives a GET request to search an animal
- * @return {Object} JSON
- */
+// /**
+//  * GET '/api/search'
+//  * Receives a GET request to search an animal
+//  * @return {Object} JSON
+//  */
 exports.searchUser = function (req, res) {
     // router.get('/api/search', function (req, res) {
 
@@ -84,10 +85,12 @@ exports.searchUser = function (req, res) {
         }
 
         // otherwise, respond with the data 
+
         var jsonData = {
             status: 'OK',
             result: data
         }
+
         res.json(jsonData);
     })
 
