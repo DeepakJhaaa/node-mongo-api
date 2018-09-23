@@ -8,8 +8,6 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var env = require('node-env-file');
 var app = express();
-console.log(app.port);
-console.log(process.env.host);
 var swaggerJSDoc = require('swagger-jsdoc');
 // swagger definition
 var swaggerDefinition = {
@@ -32,11 +30,6 @@ var options = {
 
 // initialize swagger-jsdoc
 var swaggerSpec = swaggerJSDoc(options);
-
-// var swaggerUi = require('swagger-ui-express'),
-//   swaggerDocument = require(swaggerSpec);
-
-// app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use(function(req, res, next) {
   var allowedOrigins = [
