@@ -7,13 +7,42 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var env = require('node-env-file');
-
 var app = express();
+console.log(app.port);
+console.log(process.env.host);
+var swaggerJSDoc = require('swagger-jsdoc');
+// swagger definition
+var swaggerDefinition = {
+  info: {
+    title: 'Node Swagger API',
+    version: '2.0.0',
+    description: 'Demonstrating how to describe a RESTful API with Swagger',
+  },
+  host: 'api.dkjha.com',
+  basePath: '/',
+};
+
+// options for the swagger docs
+var options = {
+  // import swaggerDefinitions
+  swaggerDefinition: swaggerDefinition,
+  // path to the API docs
+  apis: ['./routes/index.js', './**/routes/*.js', 'routes.js'], // pass all in array
+};
+
+// initialize swagger-jsdoc
+var swaggerSpec = swaggerJSDoc(options);
+
+// var swaggerUi = require('swagger-ui-express'),
+//   swaggerDocument = require(swaggerSpec);
+
+// app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
 app.use(function(req, res, next) {
   var allowedOrigins = [
     'http://ng-todo.dkjha.com',
     'https://ngx-todo.dkjha.com',
-    'http://localhost:4200'
+    'http://localhost:4200',
   ];
   var origin = req.headers.origin;
   if (allowedOrigins.indexOf(origin) > -1) {
@@ -24,15 +53,20 @@ app.use(function(req, res, next) {
   res.header('Access-Control-Allow-Methods', 'GET,POST,OPTIONS,DELETE,PUT');
   res.header(
     'Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, Content-Type, Accept, Authorization, unique_key'
+    'Origin, X-Requested-With, Content-Type, Accept, Authorization, unique_key',
   );
   next();
 });
 
 // if in development mode, load .env variables
 if (app.get('env') === 'development') {
-  env(__dirname + '/.env');
+  env(__dirname + '/config/.env');
 }
+
+app.get('/swagger.json', function(req, res) {
+  res.setHeader('Content-Type', 'application/json');
+  res.send(swaggerSpec);
+});
 
 // connect to database
 app.db = mongoose.connect(process.env.MONGODB_URI);
@@ -84,7 +118,7 @@ if (app.get('env') === 'development') {
     res.status(err.status || 500);
     res.json({
       message: err.message,
-      error: err
+      error: err,
     });
   });
 }
@@ -95,7 +129,7 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.json({
     message: err.message,
-    error: {}
+    error: {},
   });
 });
 
