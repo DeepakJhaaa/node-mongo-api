@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "dev": "nodemon start.js"
+    "dev": "nodemon ./bin/www"
   },
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
@@ -20,10 +20,17 @@
     "nodemon": "^1.17.4",
     "serve-favicon": "~2.3.0",
     "socket.io": "^1.4.6",
+    "swagger": "^0.7.5",
+    "swagger-jsdoc": "^3.2.3",
+    "swagger-ui-express": "^4.0.1",
     "ts-loader": "^2.3.7"
   },
   "engines": {
     "node": "6.10.3",
     "npm": "3.10.10"
+  },
+  "devDependencies": {
+    "swagger-express": "^1.0.5",
+    "swagger-ui": "^3.19.0"
   }
 }
