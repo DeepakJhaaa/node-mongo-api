@@ -49,7 +49,7 @@ exports.create = function(req, res, next) {
       username: username,
       email: email,
       phone: phone,
-      password: password
+      password: password,
     });
 
     user.save((err, data) => {
@@ -60,20 +60,20 @@ exports.create = function(req, res, next) {
       //Now return the json data of the new profile
       var jsonData = {
         status: 'OK',
-        user: data
+        user: data,
       };
       return res.json(jsonData);
     });
   });
 };
 
-// /**
-//  * POST '/api/update/:id'
-//  * Receives a POST request with data of the animal to update, updates db, responds back
-//  * @param  {String} req.params.id - The animalId to update
-//  * @param  {Object} req. An object containing the different attributes of the Animal
-//  * @return {Object} JSON
-//  */
+/**
+ * POST '/api/update/:id'
+ * Receives a POST request with data of the animal to update, updates db, responds back
+ * @param  {String} req.params.id - The animalId to update
+ * @param  {Object} req. An object containing the different attributes of the Animal
+ * @return {Object} JSON
+ */
 exports.update = function(req, res) {
   // router.post('/api/update/:id', function (req, res) {
 
@@ -138,7 +138,7 @@ exports.update = function(req, res) {
     // now return the json data of the new person
     var jsonData = {
       status: 'OK',
-      animal: data
+      animal: data,
     };
 
     return res.json(jsonData);
@@ -161,7 +161,7 @@ exports.delete = function(req, res) {
     if (err || data == null) {
       var error = {
         status: 'ERROR',
-        message: 'Could not find that animal to delete'
+        message: 'Could not find that animal to delete',
       };
       return res.json(error);
     }
@@ -169,7 +169,7 @@ exports.delete = function(req, res) {
     // otherwise, respond back with success
     var jsonData = {
       status: 'OK',
-      message: 'Successfully deleted id ' + requestedId
+      message: 'Successfully deleted id ' + requestedId,
     };
 
     res.json(jsonData);
