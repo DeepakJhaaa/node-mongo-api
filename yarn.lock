@@ -5592,7 +5592,7 @@ swagger-ui-express@^4.0.1:
   dependencies:
     swagger-ui-dist "^3.18.1"
 
-swagger-ui@^3.19.0:
+swagger-ui@^3.19.4:
   version "3.19.4"
   resolved "https://registry.yarnpkg.com/swagger-ui/-/swagger-ui-3.19.4.tgz#20db829ad41078b3c64f2de58ca328e905858426"
   integrity sha512-ItA4RVbye4uH8qtXfz8K+V/+NL0WHVzY7klt3/blfdQG4mzLd8XpnM+pbmC4My+ld/bcCixvkR/p8B0tPVR12g==
