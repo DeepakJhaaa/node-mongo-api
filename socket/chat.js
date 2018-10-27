@@ -1,4 +1,4 @@
-module.exports = function(io) {
+module.exports = function (io) {
   io.on('connection', socket => {
     console.log('User Connected on Socket.');
 
