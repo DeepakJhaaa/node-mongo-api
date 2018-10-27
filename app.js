@@ -16,7 +16,7 @@ var swaggerDefinition = {
     version: '2.0.0',
     description: 'Demonstrating how to describe a RESTful API with Swagger',
   },
-  host: 'api.dkjha.com',
+  host: 'localhost:5000',
   basePath: '/',
 };
 
@@ -84,16 +84,18 @@ var routes = require('./routes/index');
 var routes_U_1_0 = require('./routes/U.1.0/index');
 var routes_C_1_0 = require('./routes/C.1.0/index');
 var routes_C_1_1 = require('./routes/C.1.1/index');
-var routes_T_1_0 = require('./routes/T.1.0/index');
+var routes_TODO_1_0 = require('./services/todo-services/1.0/routes/index');
+var routes_TODO_1_1 = require('./services/todo-services/1.1/routes/index');
 var routes_P_1_0 = require('./routes/P.1.0/index');
 
 //Multiple routes structure for different projects/versions
 app.use('/', routes);
-app.use('/chat/v1', routes_C_1_0);
-app.use('/chat/v2', routes_C_1_1);
-app.use('/users/v1', routes_U_1_0);
-app.use('/todos/v1', routes_T_1_0);
-app.use('/players/v1', routes_P_1_0);
+app.use('/v1/chats', routes_C_1_0);
+app.use('/v1/chats', routes_C_1_1);
+app.use('/v1/users', routes_U_1_0);
+app.use('/v1/todos', routes_TODO_1_0);
+app.use('/v1/todos', routes_TODO_1_1);
+app.use('/v1/players', routes_P_1_0);
 
 //Catch 404 and forward to error handler
 app.use(function(req, res, next) {
