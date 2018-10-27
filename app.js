@@ -31,10 +31,12 @@ var options = {
 // initialize swagger-jsdoc
 var swaggerSpec = swaggerJSDoc(options);
 
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   var allowedOrigins = [
-    'http://ng-todo.dkjha.com',
     'https://ngx-todo.dkjha.com',
+    'https://ngx-chat.dkjha.com',
+    'https://ngx-user.dkjha.com',
+    'https://ngx-team.dkjha.com',
     'http://localhost:4200',
   ];
   var origin = req.headers.origin;
@@ -46,7 +48,7 @@ app.use(function(req, res, next) {
   res.header('Access-Control-Allow-Methods', 'GET,POST,OPTIONS,DELETE,PUT');
   res.header(
     'Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, Content-Type, Accept, Authorization, unique_key',
+    'Origin, X-Requested-With, Content-Type, Accept, Authorization, unique_key'
   );
   next();
 });
@@ -56,7 +58,7 @@ if (app.get('env') === 'development') {
   env(__dirname + '/config/.env');
 }
 
-app.get('/swagger.json', function(req, res) {
+app.get('/swagger.json', function (req, res) {
   res.setHeader('Content-Type', 'application/json');
   res.send(swaggerSpec);
 });
@@ -75,30 +77,32 @@ app.engine('html', require('hogan-express'));
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({
+  extended: false
+}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 //Base routes location file for different projects/version
 var routes = require('./routes/index');
-var routes_U_1_0 = require('./routes/U.1.0/index');
-var routes_C_1_0 = require('./routes/C.1.0/index');
-var routes_C_1_1 = require('./routes/C.1.1/index');
+// var routes_U_1_0 = require('./routes/U.1.0/index');
+// var routes_C_1_0 = require('./routes/C.1.0/index');
+// var routes_C_1_1 = require('./routes/C.1.1/index');
 var routes_TODO_1_0 = require('./services/todo-services/1.0/routes/index');
 var routes_TODO_1_1 = require('./services/todo-services/1.1/routes/index');
-var routes_P_1_0 = require('./routes/P.1.0/index');
+// var routes_P_1_0 = require('./routes/P.1.0/index');
 
 //Multiple routes structure for different projects/versions
 app.use('/', routes);
-app.use('/v1/chats', routes_C_1_0);
-app.use('/v1/chats', routes_C_1_1);
-app.use('/v1/users', routes_U_1_0);
-app.use('/v1/todos', routes_TODO_1_0);
-app.use('/v1/todos', routes_TODO_1_1);
-app.use('/v1/players', routes_P_1_0);
+// app.use('/v1/chats', routes_C_1_0);
+// app.use('/v1/chats', routes_C_1_1);
+// app.use('/v1/users', routes_U_1_0);
+app.use('/todo/v1', routes_TODO_1_0);
+app.use('/todo/v2', routes_TODO_1_1);
+// app.use('/v1/players', routes_P_1_0);
 
 //Catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
   next(err);
@@ -109,7 +113,7 @@ app.use(function(req, res, next) {
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
-  app.use(function(err, req, res, next) {
+  app.use(function (err, req, res, next) {
     res.status(err.status || 500);
     res.json({
       message: err.message,
@@ -120,7 +124,7 @@ if (app.get('env') === 'development') {
 
 // production error handler
 // no stacktraces leaked to user
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.json({
     message: err.message,
