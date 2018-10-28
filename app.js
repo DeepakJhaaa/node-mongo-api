@@ -14,10 +14,10 @@ var swaggerDefinition = {
   info: {
     title: 'Node Swagger API',
     version: '2.0.0',
-    description: 'Demonstrating how to describe a RESTful API with Swagger',
+    description: 'Demonstrating how to describe a RESTful API with Swagger'
   },
   host: 'localhost:5000',
-  basePath: '/',
+  basePath: '/'
 };
 
 // options for the swagger docs
@@ -25,19 +25,19 @@ var options = {
   // import swaggerDefinitions
   swaggerDefinition: swaggerDefinition,
   // path to the API docs
-  apis: ['./routes/index.js', './**/routes/*.js', 'routes.js'], // pass all in array
+  apis: ['./routes/index.js', './**/routes/*.js', 'routes.js'] // pass all in array
 };
 
 // initialize swagger-jsdoc
 var swaggerSpec = swaggerJSDoc(options);
 
-app.use(function (req, res, next) {
+app.use(function(req, res, next) {
   var allowedOrigins = [
     'https://ngx-todo.dkjha.com',
     'https://ngx-chat.dkjha.com',
     'https://ngx-user.dkjha.com',
     'https://ngx-team.dkjha.com',
-    'http://localhost:4200',
+    'http://localhost:4200'
   ];
   var origin = req.headers.origin;
   if (allowedOrigins.indexOf(origin) > -1) {
@@ -58,7 +58,7 @@ if (app.get('env') === 'development') {
   env(__dirname + '/config/.env');
 }
 
-app.get('/swagger.json', function (req, res) {
+app.get('/swagger.json', function(req, res) {
   res.setHeader('Content-Type', 'application/json');
   res.send(swaggerSpec);
 });
@@ -77,32 +77,28 @@ app.engine('html', require('hogan-express'));
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
-  extended: false
-}));
+app.use(
+  bodyParser.urlencoded({
+    extended: false
+  })
+);
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 //Base routes location file for different projects/version
 var routes = require('./routes/index');
-// var routes_U_1_0 = require('./routes/U.1.0/index');
-// var routes_C_1_0 = require('./routes/C.1.0/index');
-// var routes_C_1_1 = require('./routes/C.1.1/index');
 var routes_TODO_1_0 = require('./services/todo-services/1.0/routes/index');
 var routes_TODO_1_1 = require('./services/todo-services/1.1/routes/index');
-// var routes_P_1_0 = require('./routes/P.1.0/index');
+var routes_USER_1_0 = require('./services/user-services/1.0/routes/index');
 
 //Multiple routes structure for different projects/versions
 app.use('/', routes);
-// app.use('/v1/chats', routes_C_1_0);
-// app.use('/v1/chats', routes_C_1_1);
-// app.use('/v1/users', routes_U_1_0);
+app.use('/user/v1', routes_USER_1_0);
 app.use('/todo/v1', routes_TODO_1_0);
 app.use('/todo/v2', routes_TODO_1_1);
-// app.use('/v1/players', routes_P_1_0);
 
 //Catch 404 and forward to error handler
-app.use(function (req, res, next) {
+app.use(function(req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
   next(err);
@@ -113,22 +109,22 @@ app.use(function (req, res, next) {
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
-  app.use(function (err, req, res, next) {
+  app.use(function(err, req, res, next) {
     res.status(err.status || 500);
     res.json({
       message: err.message,
-      error: err,
+      error: err
     });
   });
 }
 
 // production error handler
 // no stacktraces leaked to user
-app.use(function (err, req, res, next) {
+app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.json({
     message: err.message,
-    error: {},
+    error: {}
   });
 });
 
