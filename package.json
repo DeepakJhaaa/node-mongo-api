@@ -14,7 +14,7 @@
     "express": "~4.14.0",
     "hogan-express": "0.5.2",
     "jsonwebtoken": "^5.7.0",
-    "mongoose": "4.1.10",
+    "mongoose": "^5.3.8",
     "morgan": "~1.6.1",
     "node-env-file": "0.1.7",
     "nodemon": "^1.17.4",
