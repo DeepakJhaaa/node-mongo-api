@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var env = require('node-env-file');
 var app = express();
+var db = require('./config/db');
 var swaggerJSDoc = require('swagger-jsdoc');
 // swagger definition
 var swaggerDefinition = {
@@ -63,13 +64,6 @@ app.get('/swagger.json', function (req, res) {
   res.send(swaggerSpec);
 });
 
-// connect to database
-app.db = mongoose.connect(process.env.MONGODB_URI, {
-  useNewUrlParser: true
-});
-
-// view engine setup - this app uses Hogan-Express
-// https://github.com/vol4ok/hogan-express
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'html');
 app.set('layout', 'layout');
