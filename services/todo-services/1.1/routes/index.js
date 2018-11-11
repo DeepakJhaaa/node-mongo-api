@@ -2,6 +2,12 @@ var express = require('express');
 var router = express.Router();
 const _todoService = require('../services/todo');
 
+router.get('/getTodos', _todoService.getTodos);
+router.get('/getTodo/:id', _todoService.getTodo);
+router.put('/updateTodo', _todoService.updateTodo);
+router.post('/createTodo', _todoService.createTodo);
+router.delete('/deleteTodo/:id', _todoService.deleteTodo);
+
 /**
  * @swagger
  * definition:
@@ -26,7 +32,7 @@ const _todoService = require('../services/todo');
  *     tags:
  *       - Todos_v2
  */
-router.get('/getTodos', _todoService.getTodos);
+
 
 /**
  * @swagger
@@ -48,7 +54,7 @@ router.get('/getTodos', _todoService.getTodos);
  *     tags:
  *       - Todos_v2
  */
-router.get('/getTodo/:id', _todoService.getTodo);
+
 
 /**
  * @swagger
@@ -67,7 +73,7 @@ router.get('/getTodo/:id', _todoService.getTodo);
  *     tags:
  *       - Todos_v2
  */
-router.get('/deleteTodo/:id', _todoService.deleteTodo);
+
 
 /**
  * @swagger
@@ -89,7 +95,7 @@ router.get('/deleteTodo/:id', _todoService.deleteTodo);
  *     tags:
  *       - Todos_v2
  */
-router.post('/newTodo', _todoService.newTodo);
+
 
 /**
  * @swagger
@@ -111,6 +117,6 @@ router.post('/newTodo', _todoService.newTodo);
  *     tags:
  *       - Todos_v2
  */
-router.put('/updateTodo', _todoService.updateTodo);
+
 
 module.exports = router;

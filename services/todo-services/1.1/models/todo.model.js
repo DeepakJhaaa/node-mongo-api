@@ -6,9 +6,12 @@ var TodoSchema = new Schema({
   completed: Boolean,
   userId: {
     type: Schema.Types.ObjectId,
-    ref: 'c10_User',
+    ref: 'ua_user',
   },
-  dateAdded: { type: Date, default: Date.now },
+  dateAdded: {
+    type: Date,
+    default: Date.now
+  },
 });
 
-module.exports = mongoose.model('t11_todo', TodoSchema);
+module.exports = mongoose.model('tb_todo', TodoSchema);
