@@ -1,24 +1,24 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var socketIo = require('socket.io');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var mongoose = require('mongoose');
-var env = require('node-env-file');
+var express = require("express");
+var path = require("path");
+var favicon = require("serve-favicon");
+var logger = require("morgan");
+var socketIo = require("socket.io");
+var cookieParser = require("cookie-parser");
+var bodyParser = require("body-parser");
+var mongoose = require("mongoose");
+var env = require("node-env-file");
 var app = express();
-var db = require('./config/db');
-var swaggerJSDoc = require('swagger-jsdoc');
+var db = require("./config/db");
+var swaggerJSDoc = require("swagger-jsdoc");
 // swagger definition
 var swaggerDefinition = {
   info: {
-    title: 'Node Swagger API',
-    version: '2.0.0',
-    description: 'Demonstrating how to describe a RESTful API with Swagger'
+    title: "Node Swagger API",
+    version: "2.0.0",
+    description: "Demonstrating how to describe a RESTful API with Swagger"
   },
-  host: 'localhost:5000',
-  basePath: '/'
+  host: "localhost:5000",
+  basePath: "/"
 };
 
 // options for the swagger docs
@@ -26,52 +26,56 @@ var options = {
   // import swaggerDefinitions
   swaggerDefinition: swaggerDefinition,
   // path to the API docs
-  apis: ['./routes/index.js', './**/routes/*.js', 'routes.js'] // pass all in array
+  apis: ["./routes/index.js", "./**/routes/*.js", "routes.js"] // pass all in array
 };
 
 // initialize swagger-jsdoc
 var swaggerSpec = swaggerJSDoc(options);
 
-app.use(function (req, res, next) {
+app.set('trust proxy', 1);
+app.use(function(req, res, next) {
   var allowedOrigins = [
-    'https://ngx-todo.dkjha.com',
-    'https://ngx-chat.dkjha.com',
-    'https://ngx-user.dkjha.com',
-    'https://ngx-team.dkjha.com',
-    'http://localhost:4200'
+    "*.dkjha.com",
+    "https://ngx-chat.dkjha.com",
+    "https://ngx-user.dkjha.com",
+    "https://ngx-team.dkjha.com",
+    "http://localhost:4200"
   ];
   var origin = req.headers.origin;
   if (allowedOrigins.indexOf(origin) > -1) {
-    res.setHeader('Access-Control-Allow-Origin', origin);
+    res.setHeader("Access-Control-Allow-Origin", origin);
   }
-  res.header('Access-Control-Allow-Methods', 'GET,POST,OPTIONS,DELETE,PUT');
-  res.header('Access-Control-Allow-Credentials', true);
-  res.header('Access-Control-Allow-Methods', 'GET,POST,OPTIONS,DELETE,PUT');
+  if (origin && origin.endsWith("dkjha.com")) {
+    res.setHeader("Access-Control-Allow-Origin", origin);
+  }
+  res.header("Access-Control-Allow-Methods", "GET,POST,OPTIONS,DELETE,PUT");
+  res.header("Access-Control-Allow-Credentials", true);
+  res.header("Access-Control-Allow-Methods", "GET,POST,OPTIONS,DELETE,PUT");
   res.header(
-    'Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, Content-Type, Accept, Authorization, username, userId'
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept, Authorization, username, userId"
   );
   next();
 });
 // if in development mode, load .env variables
-if (process.env.NODE_ENV === 'development') {
-  console.log(app.get('env'));
-  env(__dirname + '/config/.env');
+if (process.env.NODE_ENV === "development") {
+  console.log(app.get("env"));
+  env(__dirname + "/config/.env");
 }
 
-app.get('/swagger.json', function (req, res) {
-  res.setHeader('Content-Type', 'application/json');
+app.get("/swagger.json", function(req, res) {
+  res.setHeader("Content-Type", "application/json");
   res.send(swaggerSpec);
 });
 
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'html');
-app.set('layout', 'layout');
-app.engine('html', require('hogan-express'));
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "html");
+app.set("layout", "layout");
+app.engine("html", require("hogan-express"));
 
 // uncomment after placing your favicon in /public
-app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(logger('dev'));
+app.use(favicon(path.join(__dirname, "public", "favicon.ico")));
+app.use(logger("dev"));
 app.use(bodyParser.json());
 app.use(
   bodyParser.urlencoded({
@@ -79,23 +83,23 @@ app.use(
   })
 );
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, "public")));
 
 //Base routes location file for different projects/version
-var routes = require('./routes/index');
-var routes_TODO_1_0 = require('./services/todo-services/1.0/routes/index');
-var routes_TODO_1_1 = require('./services/todo-services/1.1/routes/index');
-var routes_USER_1_0 = require('./services/user-services/1.0/routes/index');
+var routes = require("./routes/index");
+var routes_TODO_1_0 = require("./services/todo-services/1.0/routes/index");
+var routes_TODO_1_1 = require("./services/todo-services/1.1/routes/index");
+var routes_USER_1_0 = require("./services/user-services/1.0/routes/index");
 
 //Multiple routes structure for different projects/versions
-app.use('/', routes);
-app.use('/user/v1', routes_USER_1_0);
-app.use('/todo/v1', routes_TODO_1_0);
-app.use('/todo/v2', routes_TODO_1_1);
+app.use("/", routes);
+app.use("/user/v1", routes_USER_1_0);
+app.use("/todo/v1", routes_TODO_1_0);
+app.use("/todo/v2", routes_TODO_1_1);
 
 //Catch 404 and forward to error handler
-app.use(function (req, res, next) {
-  var err = new Error('Not Found');
+app.use(function(req, res, next) {
+  var err = new Error("Not Found");
   err.status = 404;
   next(err);
 });
@@ -104,8 +108,8 @@ app.use(function (req, res, next) {
 
 // development error handler
 // will print stacktrace
-if (app.get('env') === 'development') {
-  app.use(function (err, req, res, next) {
+if (app.get("env") === "development") {
+  app.use(function(err, req, res, next) {
     res.status(err.status || 500);
     res.json({
       message: err.message,
@@ -116,7 +120,7 @@ if (app.get('env') === 'development') {
 
 // production error handler
 // no stacktraces leaked to user
-app.use(function (err, req, res, next) {
+app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.json({
     message: err.message,
