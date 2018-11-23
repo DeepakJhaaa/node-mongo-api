@@ -1,5 +1,5 @@
 # Node.js + Express.js + MongoDB
-
+[![Build Status](https://travis-ci.org/DeepakJhaaa/node-mongo-api.svg?branch=develop)](https://travis-ci.org/DeepakJhaaa/node-mongo-api)
 ## Release 1.1.x : Changelog
 
 Following new API and features are added into this release:
