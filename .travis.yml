@@ -17,6 +17,13 @@ branches:
   only:
     - develop
 
+deploy:
+  provider: heroku
+  app: node-mongo-api-server
+  on: develop
+  api_key:
+    secure: "YOUR ENCRYPTED API KEY"
+
 addons:
   sonarcloud:
     organization: 'deepakjhaaa-github'
