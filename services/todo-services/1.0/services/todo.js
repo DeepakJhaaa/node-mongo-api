@@ -5,7 +5,7 @@ var Todo = require('../models/todo.model.js');
  * @param {*} req - Incoming requst
  * @param {*} res - response data
  */
-exports.newTodo = function(req, res) {
+exports.newTodo = function (req, res) {
   var task = req.body.task;
   var completed = false;
 
@@ -15,18 +15,27 @@ exports.newTodo = function(req, res) {
   };
 
   var todo = new Todo(todoObj);
-  
+
   if (req.body.task == undefined) {
-    var error = { status: 'ERROR', message: 'Error saving todo.' };
+    var error = {
+      status: 'ERROR',
+      message: 'Error saving todo.'
+    };
     return res.json(error);
   }
 
-  todo.save(function(err, data) {
+  todo.save(function (err, data) {
     if (err) {
-      var error = { status: 'ERROR', message: 'Error saving todo.' };
+      var error = {
+        status: 'ERROR',
+        message: 'Error saving todo.'
+      };
       return res.json(error);
     }
-    var jsonData = { status: 'OK', todo: data };
+    var jsonData = {
+      status: 'OK',
+      todo: data
+    };
     return res.json(jsonData);
   });
 };
@@ -36,15 +45,21 @@ exports.newTodo = function(req, res) {
  * @param {*} req - Incoming requst
  * @param {*} res - response data
  */
-exports.getTodo = function(req, res) {
+exports.getTodo = function (req, res) {
   var todoId = req.params.id;
 
-  Todo.findById(todoId, function(err, data) {
+  Todo.findById(todoId, function (err, data) {
     if (err || data == null) {
-      var error = { status: 'ERROR', message: 'Todo Not found.' };
+      var error = {
+        status: 'ERROR',
+        message: 'Todo Not found.'
+      };
       return res.json(error);
     }
-    var jsonData = { status: 'OK', todo: data };
+    var jsonData = {
+      status: 'OK',
+      todo: data
+    };
     res.json(jsonData);
   });
 };
@@ -54,13 +69,19 @@ exports.getTodo = function(req, res) {
  * @param {*} req - Incoming requst
  * @param {*} res - response data
  */
-exports.getTodos = function(req, res) {
-  Todo.find(function(err, data) {
+exports.getTodos = function (req, res) {
+  Todo.find(function (err, data) {
     if (err || data == null) {
-      var error = { status: 'ERROR', message: 'No Todos found.' };
+      var error = {
+        status: 'ERROR',
+        message: 'No Todos found.'
+      };
       return res.json(error);
     }
-    var jsonData = { status: 'OK', todos: data };
+    var jsonData = {
+      status: 'OK',
+      todos: data
+    };
     res.json(jsonData);
   });
 };
@@ -70,7 +91,7 @@ exports.getTodos = function(req, res) {
  * @param {*} req - Incoming requst
  * @param {*} res - response data
  */
-exports.updateTodo = function(req, res) {
+exports.updateTodo = function (req, res) {
   var todoId = req.body.id;
   var dataToUpdate = {};
   var task, completed;
@@ -84,9 +105,12 @@ exports.updateTodo = function(req, res) {
     dataToUpdate['completed'] = completed;
   }
 
-  Todo.findByIdAndUpdate(todoId, dataToUpdate, function(err, data) {
+  Todo.findByIdAndUpdate(todoId, dataToUpdate, function (err, data) {
     if (err) {
-      var error = { status: 'ERROR', message: 'Error updating Todo' };
+      var error = {
+        status: 'ERROR',
+        message: 'Error updating Todo'
+      };
       return res.json(error);
     }
 
@@ -103,10 +127,10 @@ exports.updateTodo = function(req, res) {
  * @param {*} req - Incoming requst
  * @param {*} res - response data
  */
-exports.deleteTodo = function(req, res) {
+exports.deleteTodo = function (req, res) {
   var todoId = req.params.id;
 
-  Todo.findByIdAndRemove(todoId, function(err, data) {
+  Todo.findByIdAndRemove(todoId, function (err, data) {
     if (err || data == null) {
       var error = {
         status: 'ERROR',
