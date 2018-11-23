@@ -32,20 +32,10 @@ var options = {
 // initialize swagger-jsdoc
 var swaggerSpec = swaggerJSDoc(options);
 
-app.set('trust proxy', 3);
+app.set("trust proxy", 3);
 app.use(function(req, res, next) {
-  var allowedOrigins = [
-    "*.dkjha.com",
-    "https://ngx-chat.dkjha.com",
-    "https://ngx-user.dkjha.com",
-    "https://ngx-team.dkjha.com",
-    "http://localhost:4200"
-  ];
   var origin = req.headers.origin;
-  if (allowedOrigins.indexOf(origin) > -1) {
-    res.setHeader("Access-Control-Allow-Origin", origin);
-  }
-  if (origin && origin.endsWith("dkjha.com")) {
+  if (req.hostname.endsWith("dkjha.com")) {
     res.setHeader("Access-Control-Allow-Origin", origin);
   }
   res.header("Access-Control-Allow-Methods", "GET,POST,OPTIONS,DELETE,PUT");
