@@ -40,8 +40,6 @@ exports.userLogin = function (req, res) {
                 });
                 res.cookie('username', user.username);
                 res.cookie('firstName', user.firstName);
-                res.cookie('id', user._id);
-                console.log('user_id : ');
                 res.cookie('userId', user.id);
 
                 res.json({

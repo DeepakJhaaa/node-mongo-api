@@ -1,0 +1,22 @@
+language: node_js
+
+node_js:
+  - '8.11.4'
+
+cache:
+  directories:
+    - node-modules
+
+before_script:
+  - npm install global @angular/cli
+
+script:
+  - sonar-scanner
+
+addons:
+  sonarcloud:
+    organization: 'deepakjhaaa-github'
+    token:
+      secure: $SONAR_TOKEN
+
+before_deploy: "echo 'ready?'"
