@@ -2,7 +2,9 @@ var mongoose = require('mongoose');
 var env = require('node-env-file');
 
 // ====== Import the Environment file ======
-env(__dirname + '/.env');
+if (process.env.NODE_ENV !== 'production') {
+    env(__dirname + '/.env');
+}
 
 // ====== Create database connection to mongoDB =====
 mongoose.connect(process.env.MONGODB_URI_NEW, {
