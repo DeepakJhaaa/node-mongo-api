@@ -53,9 +53,9 @@ app.use(function (req, res, next) {
   );
   next();
 });
-
 // if in development mode, load .env variables
-if (app.get('env') === 'development') {
+if (process.env.NODE_ENV === 'development') {
+  console.log(app.get('env'));
   env(__dirname + '/config/.env');
 }
 
