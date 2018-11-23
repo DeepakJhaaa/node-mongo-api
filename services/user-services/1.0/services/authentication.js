@@ -3,12 +3,10 @@ var config = require('../config/config');
 var User = require('../models/user.modal');
 
 exports.userLogin = function (req, res) {
-    console.log(req.body);
     // find the user
     User.findOne({
         username: req.body.username
     }, function (err, user) {
-        console.log('user', user);
         if (err) throw err;
 
         if (!user) {
@@ -17,8 +15,6 @@ exports.userLogin = function (req, res) {
                 message: 'Authentication failed. User not found.'
             });
         } else if (user) {
-            console.log('user : ', user);
-
             // check if password matches
             if (user.password != req.body.password) {
                 res.json({
@@ -41,7 +37,7 @@ exports.userLogin = function (req, res) {
                 res.cookie('username', user.username);
                 res.cookie('firstName', user.firstName);
                 res.cookie('userId', user.id);
-
+                console.log(res.getHeaders());
                 res.json({
                     status: 'success',
                     message: 'Successfully logged in.',
@@ -59,7 +55,6 @@ exports.userLogin = function (req, res) {
 };
 
 exports.verify = function (req, res, next) {
-    console.log(req.body);
     // check header or url parameters or post parameters for token
     var token = req.body.token || req.query.token || req.headers['x-access-token'];
 
