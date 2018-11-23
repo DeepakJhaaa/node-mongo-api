@@ -32,7 +32,7 @@ var options = {
 // initialize swagger-jsdoc
 var swaggerSpec = swaggerJSDoc(options);
 
-app.set('trust proxy', 1);
+app.set('trust proxy', 3);
 app.use(function(req, res, next) {
   var allowedOrigins = [
     "*.dkjha.com",
