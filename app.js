@@ -35,7 +35,7 @@ var swaggerSpec = swaggerJSDoc(options);
 app.set("trust proxy", 3);
 app.use(function(req, res, next) {
   var origin = req.headers.origin;
-  if (req.hostname.endsWith("dkjha.com")) {
+  if (req.hostname && req.hostname.endsWith("dkjha.com")) {
     res.setHeader("Access-Control-Allow-Origin", origin);
   }
   res.header("Access-Control-Allow-Methods", "GET,POST,OPTIONS,DELETE,PUT");
